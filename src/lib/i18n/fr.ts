@@ -1,0 +1,377 @@
+export const fr = {
+  localeName: "Français",
+  htmlLang: "fr",
+  meta: {
+    title: "PAP Revolution — SOS Villages d'Enfants Tunisie",
+    description:
+      "Comprendre le Prélèvement Automatique Permanent à travers une expérience éducative interactive.",
+  },
+  nav: {
+    label: "Navigation principale",
+    impact: "Impact",
+    pap: "PAP",
+    quiz: "Quiz",
+    assistant: "IA",
+    donate: "Don",
+    impactLong: "L'impact d'un geste",
+    papLong: "Comprendre le PAP",
+    quizLong: "Quiz PAP",
+    assistantLong: "Assistant IA",
+    donateLong: "Faire un don",
+  },
+  common: {
+    close: "Fermer",
+    cancel: "Annuler",
+    continue: "Continuer",
+    next: "Suivant",
+    back: "Retour",
+    reset: "Réinitialiser",
+    retry: "Réessayer",
+    send: "Envoyer",
+    loading: "Chargement…",
+    required: "Champ obligatoire",
+    source: "Source",
+    page: "page",
+    of: "sur",
+    step: "Étape",
+    simulation: "Simulation pédagogique",
+    verified: "Information vérifiée",
+    aiGenerated: "Généré par IA",
+    demoProfile: "Profil de démonstration",
+    clear: "Effacer",
+    external: "ouvre le site officiel dans un nouvel onglet",
+  },
+  welcome: {
+    dialogLabel: "Bienvenue dans l'expérience PAP",
+    badge: "Expérience éducative",
+    title: "Bienvenue dans l'expérience PAP",
+    subtitle:
+      "Découvrez comment un soutien régulier peut contribuer à construire un avenir plus stable pour les enfants.",
+    profileTab: "Créer un profil de démonstration",
+    guestTab: "Continuer en invité",
+    firstName: "Prénom",
+    firstNamePlaceholder: "Votre prénom",
+    lastName: "Nom",
+    lastNamePlaceholder: "Votre nom",
+    phone: "Numéro de téléphone",
+    phonePlaceholder: "Ex. 22 123 456",
+    phoneHint: "Format tunisien : 8 chiffres, éventuellement précédés de +216.",
+    createProfile: "Continuer",
+    continueGuest: "Continuer en invité",
+    profileNote:
+      "Ce profil est purement démonstratif. Il n'est pas un compte SOS officiel. Vos informations restent dans la mémoire de cette page et ne sont jamais envoyées à un serveur.",
+    guestNote:
+      "En invité, vous pouvez explorer les cinq onglets et l'assistant. Le quiz complet est réservé aux visiteurs disposant d'un profil de démonstration.",
+    profileCreatedTitle: "Votre profil de démonstration est prêt",
+    profileCreatedBody:
+      "Bienvenue {name}. Ce profil reste local à cette session : aucun compte réel n'a été créé.",
+    startExploring: "Commencer l'expérience",
+    errors: {
+      firstNameRequired: "Veuillez indiquer votre prénom.",
+      firstNameShort: "Le prénom doit contenir au moins 2 caractères.",
+      lastNameRequired: "Veuillez indiquer votre nom.",
+      lastNameShort: "Le nom doit contenir au moins 2 caractères.",
+      phoneRequired: "Veuillez indiquer votre numéro de téléphone.",
+      phoneInvalid:
+        "Numéro invalide. Utilisez 8 chiffres commençant par 2, 4, 5, 7 ou 9, avec +216 si vous le souhaitez.",
+    },
+  },
+  impact: {
+    kicker: "Tab 1 — L'impact d'un geste",
+    title: "Un petit geste régulier. Un soutien qui dure.",
+    subtitle:
+      "Ajoutez des contributions symboliques et regardez le village grandir, pas à pas. Chaque geste compte, mais aucun geste ne raconte à lui seul une histoire réelle.",
+    sceneLabel: "Village pixel-art qui évolue avec les contributions symboliques",
+    stage: "Étape",
+    stageNames: [
+      "Un premier geste",
+      "Un environnement plus accueillant",
+      "Grandir ensemble",
+      "Un village qui prend vie",
+      "Une communauté qui se construit",
+    ],
+    stageDescriptions: [
+      "Un enfant, un jeune plant et un espace calme. Le point de départ de l'expérience.",
+      "Une maison accueillante apparaît et le jardin prend des couleurs.",
+      "D'autres enfants rejoignent la scène : le soutien devient collectif.",
+      "Le village s'étend avec de nouveaux espaces partagés.",
+      "Une communauté complète, chaleureuse et vivante.",
+    ],
+    amountLabel: "Montant symbolique de la simulation",
+    amountNote:
+      "Choisissez librement un montant fictif. Aucun paiement n'est effectué et aucune donnée bancaire n'est demandée.",
+    customLabel: "Montant personnalisé",
+    customPlaceholder: "Ex. 15",
+    customError: "Saisissez un montant entre 1 et 10 000 DT.",
+    add: "Ajouter à l'expérience",
+    reset: "Réinitialiser l'expérience",
+    totalLabel: "Total symbolique",
+    interactionsLabel: "Gestes ajoutés",
+    stageLabel: "Étape du village",
+    nextStage: "Encore {count} geste(s) pour la prochaine étape.",
+    maxStage: "Le village est complet. Vous pouvez réinitialiser et recommencer.",
+    annualTitle: "Comparaison annuelle indicative",
+    annualBody:
+      "{amount} DT par mois représenteraient {annual} DT sur 12 mois dans cette simulation.",
+    dailyTitle: "Exemple de budget quotidien",
+    dailyBody: "1 DT par jour représente environ 30 DT sur 30 jours.",
+    dailyNote:
+      "Il s'agit d'un exemple de budget quotidien. Le PAP fonctionne par prélèvement mensuel du montant choisi par le donateur, et non par prélèvement quotidien.",
+    disclaimerTitle: "À propos de cette simulation",
+    disclaimer:
+      "Cette expérience est une simulation pédagogique. Les montants affichés sont fictifs et ne représentent pas une dépense réelle attribuée à un enfant ou à un service précis.",
+    symbolNote:
+      "Le village illustre la force du soutien collectif et régulier. Il ne représente pas la situation personnelle d'un enfant réel.",
+    cta: "Comprendre comment fonctionne le PAP",
+    childAlt: "Enfant en pixel art",
+    reducedMotion: "Les animations sont réduites selon les préférences de votre appareil.",
+    addAnnounce: "Contribution symbolique ajoutée. Étape {stage} du village.",
+  },
+  pap: {
+    kicker: "Tab 2 — Comprendre le PAP",
+    title: "Un soutien régulier, simplement.",
+    subtitle:
+      "Un guide vous accompagne pas à pas pour comprendre le Prélèvement Automatique Permanent, sans jargon et sans engagement.",
+    definitionKicker: "Définition",
+    definitionTitle: "Qu'est-ce que le PAP ?",
+    definitionBody:
+      "PAP signifie Prélèvement Automatique Permanent. Il s'agit d'une contribution volontaire prélevée automatiquement chaque mois sur un compte courant tunisien, selon le montant choisi et autorisé par le donateur.",
+    journeyKicker: "Parcours du donateur",
+    journeyTitle: "Six étapes, guidées avec vous",
+    journeyHint: "Avancez à votre rythme. Cette démonstration ne crée aucun mandat réel.",
+    stepLabel: "Étape {current} sur {total}",
+    steps: [
+      {
+        title: "Découvrir",
+        body:
+          "SOS Villages d'Enfants accompagne des enfants et des familles. Un soutien récurrent permet de planifier dans la durée, au lieu de dépendre de gestes ponctuels.",
+      },
+      {
+        title: "Choisir",
+        body:
+          "Vous choisissez librement le montant mensuel. Aucun montant n'est imposé par cette démonstration.",
+      },
+      {
+        title: "Comprendre l'autorisation",
+        body:
+          "La procédure PAP réelle demande les informations du donateur, le montant en chiffres et en lettres, un RIB et les coordonnées bancaires, le premier mois de prélèvement, une autorisation personnelle et une signature. Un compte courant tunisien est requis.",
+      },
+      {
+        title: "Expérience SMS simulée",
+        body:
+          "Voici à quoi peut ressembler une confirmation. Ce message est entièrement fictif : aucun SMS réel n'est envoyé et aucune opération bancaire n'est effectuée.",
+      },
+      {
+        title: "Le prélèvement mensuel",
+        body:
+          "Le prélèvement normal a lieu le 25 du mois. Si le compte manque de solde, une seconde tentative est faite le 5 du mois suivant. Les prélèvements échoués ne sont pas cumulés.",
+      },
+      {
+        title: "Le choix reste au donateur",
+        body:
+          "Le donateur peut contacter SOS pour modifier le montant, suspendre temporairement ou arrêter sa contribution. Le soutien reste volontaire.",
+      },
+    ],
+    amountTitle: "Choisissez un montant mensuel (simulation)",
+    amountHint:
+      "Ce montant sert uniquement à illustrer le parcours. Il n'est ni transmis ni enregistré.",
+    smsTitle: "Notification simulée",
+    smsFrom: "SOS PAP — simulation",
+    smsBody:
+      "SIMULATION PAP - Votre choix pédagogique : {amount} DT par mois. Aucune opération bancaire n'a été effectuée.",
+    smsConfirm: "Confirmer ma simulation",
+    smsConfirmedTitle: "Simulation confirmée",
+    smsConfirmedBody:
+      "Votre parcours de démonstration est terminé. Aucun mandat, aucun prélèvement et aucun SMS réel n'ont été créés.",
+    smsDisclaimer:
+      "Simulation pédagogique - aucun SMS réel, mandat bancaire ou prélèvement n'est créé.",
+    timelineTitle: "La chronologie mensuelle",
+    timelineHint: "Touchez chaque point pour afficher son détail.",
+    timeline: [
+      {
+        label: "Autorisation",
+        detail:
+          "Le donateur complète et signe l'autorisation avec ses informations, le montant et son RIB.",
+      },
+      {
+        label: "Premier mois",
+        detail:
+          "Le donateur indique le premier mois de prélèvement souhaité.",
+      },
+      {
+        label: "Le 25",
+        detail: "Le prélèvement normal est effectué le 25 de chaque mois.",
+      },
+      {
+        label: "Le 5 suivant",
+        detail:
+          "En cas de solde insuffisant, une seconde tentative a lieu le 5 du mois suivant.",
+      },
+      {
+        label: "Chaque mois",
+        detail:
+          "Le prélèvement se répète mensuellement. Les échecs ne s'accumulent pas.",
+      },
+    ],
+    accountTitle: "Quel compte bancaire faut-il ?",
+    accountBody:
+      "Pour le PAP, le prélèvement automatique est effectué depuis un compte courant tunisien. Le donateur autorise sa banque à débiter ce compte.",
+    accountPoints: [
+      "Un compte courant tunisien est nécessaire.",
+      "Le débit est autorisé par le donateur.",
+      "Le RIB et les coordonnées bancaires sont requis.",
+      "Le paiement par carte bancaire ne fait pas partie de la voie PAP.",
+    ],
+    privacyTitle: "Votre soutien, leur intimité",
+    privacyBody:
+      "Le PAP soutient l'ensemble des actions de SOS : soins, éducation, santé et renforcement des familles. Il ne donne pas accès à un enfant en particulier.",
+    privacyPoints: [
+      "Aucune sélection d'un enfant individuellement identifié.",
+      "Les informations personnelles des enfants sont protégées.",
+      "Choisir un village ne signifie pas choisir un enfant précis.",
+    ],
+    cta: "Découvrir le quiz PAP",
+    guideAlt: "Guide humain en pixel art",
+    restart: "Recommencer le parcours",
+    stepAnnounce: "Étape {current} du parcours PAP : {title}",
+  },
+  quiz: {
+    kicker: "Tab 3 — Quiz PAP",
+    title: "Testez votre compréhension du PAP",
+    subtitle:
+      "Six questions issues d'une banque vérifiée, avec une correction immédiate et la page source de chaque réponse.",
+    gateTitle: "Le quiz est réservé aux profils de démonstration",
+    gateBody:
+      "Le quiz est réservé aux visiteurs disposant d'un profil de démonstration.",
+    gateCta: "Créer mon profil",
+    startTitle: "Prêt à vérifier vos connaissances ?",
+    startBody:
+      "2 questions faciles, 2 moyennes et 2 difficiles. Vous pouvez recommencer autant de fois que vous le souhaitez.",
+    startCta: "Commencer le quiz",
+    level: "Niveau",
+    levels: { easy: "Facile", medium: "Moyen", hard: "Difficile" },
+    questionOf: "Question {current} sur {total}",
+    score: "Score",
+    correct: "Bonne réponse",
+    incorrect: "Réponse incorrecte",
+    explanation: "Explication",
+    source: "Source",
+    sourcePage: "Guide PAP, page {page}",
+    next: "Question suivante",
+    seeResults: "Voir mes résultats",
+    resultsTitle: "Résultat du quiz",
+    resultsBody: "Votre score : {score} sur {total}.",
+    restart: "Recommencer",
+    scoreOutOf: "{score} / {total}",
+    verdictPerfect: "Excellent : votre compréhension du PAP est solide.",
+    verdictGood: "Bien joué. Relisez les explications pour consolider les points restants.",
+    verdictLow:
+      "Continuez à explorer l'onglet PAP, puis retentez le quiz : chaque essai fait progresser.",
+    modeCurated: "Banque de questions vérifiée",
+    modeAi: "Questions enrichies par IA",
+    generating: "Préparation des questions…",
+    loadingError:
+      "Impossible de charger de nouvelles questions. La banque vérifiée est utilisée à la place.",
+    aiBadge: "IA",
+    progressLabel: "Progression du quiz",
+    chooseAnswer: "Choisissez une réponse, puis validez.",
+    submit: "Valider ma réponse",
+    answered: "Réponse enregistrée",
+  },
+  assistant: {
+    kicker: "Tab 4 — Assistant IA",
+    title: "Une question sur le PAP ?",
+    subtitle: "Posez vos questions, nous vous aidons à comprendre.",
+    welcome:
+      "Bonjour ! Je réponds uniquement à partir de ressources vérifiées sur le PAP. Si une information n'est pas confirmée, je vous le dirai clairement.",
+    placeholder: "Écrivez votre question sur le PAP…",
+    send: "Envoyer la question",
+    suggestedTitle: "Questions fréquentes",
+    suggestions: [
+      "C'est quoi exactement le PAP ?",
+      "Est-ce que je peux arrêter mon prélèvement ?",
+      "Quelle est la date du prélèvement ?",
+      "Quel type de compte bancaire faut-il ?",
+      "Puis-je choisir un enfant ?",
+      "Que se passe-t-il si mon compte manque de solde ?",
+    ],
+    thinking: "Recherche dans les sources vérifiées…",
+    modeAi: "Réponses générées par IA à partir des sources vérifiées",
+    modeCurated: "Mode démonstration : réponses issues de la base vérifiée",
+    citations: "Sources",
+    statusOfficial: "Officiel",
+    statusHistorical: "Historique",
+    statusEducational: "Explication",
+    sourcePage: "Guide PAP, page {page}",
+    disclaimer:
+      "Cet assistant est éducatif. Il ne crée aucun mandat, ne traite aucun paiement et ne remplace pas les informations officielles de SOS Villages d'Enfants Tunisie.",
+    errorTitle: "La réponse n'a pas pu être chargée",
+    errorBody:
+      "Vérifiez votre connexion et réessayez. La base de connaissances vérifiée reste disponible hors ligne.",
+    retry: "Réessayer",
+    clear: "Effacer la conversation",
+    you: "Vous",
+    assistant: "Assistant PAP",
+    noCitations: "Aucune source précise n'a été trouvée.",
+    unsupportedTitle: "Information non confirmée",
+  },
+  donate: {
+    kicker: "Tab 5 — Faire un don",
+    title: "Choisissez la voie officielle qui vous convient",
+    subtitle:
+      "Cette démonstration ne traite aucun paiement. Toutes les démarches réelles se font sur les pages officielles de SOS Villages d'Enfants Tunisie.",
+    onlineKicker: "Don ponctuel ou en ligne",
+    onlineTitle: "Faire un don sur le site officiel",
+    onlineBody:
+      "Le don en ligne général peut utiliser un paiement par carte. Il s'agit d'une voie distincte du parrainage PAP.",
+    onlineCta: "Faire un don sur le site officiel",
+    papKicker: "Parrainage récurrent",
+    papTitle: "Découvrir le prélèvement PAP officiel",
+    papBody:
+      "Le parrainage PAP repose sur un prélèvement mensuel automatique depuis un compte courant tunisien, avec une autorisation signée. Aucune carte bancaire n'est utilisée pour cette voie.",
+    papCta: "Découvrir le prélèvement PAP officiel",
+    differenceTitle: "Ne pas confondre les deux parcours",
+    differenceIntro:
+      "Les deux démarches soutiennent SOS, mais leur fonctionnement administratif et bancaire diffère.",
+    rows: [
+      { label: "Moyen de paiement", online: "Carte bancaire possible", pap: "Prélèvement automatique" },
+      { label: "Fréquence", online: "Selon votre don", pap: "Chaque mois" },
+      { label: "Compte requis", online: "Selon la page officielle", pap: "Compte courant tunisien" },
+      { label: "Autorisation", online: "Paiement en ligne", pap: "Formulaire signé avec RIB" },
+    ],
+    noteTitle: "Aucun paiement dans cette démonstration",
+    note:
+      "Cette application ne contient pas de passerelle de paiement et n'affiche aucun faux écran de succès financier. Les dons réels se font exclusivement sur le site officiel de SOS.",
+    officialTitle: "Pages officielles",
+    officialBody:
+      "Vérifiez toujours les informations sur les pages officielles avant toute démarche.",
+    sourcesTitle: "Liens utiles",
+    linkHome: "Site officiel SOS Tunisie",
+    linkPap: "Parrainage PAP",
+    linkDon: "Don en ligne",
+    linkInscription: "Espace d'inscription SOS",
+    independent:
+      "Cette expérience éducative est indépendante et ne remplace pas les procédures officielles de SOS Villages d'Enfants Tunisie.",
+  },
+  footer: {
+    disclaimer:
+      "Expérience éducative indépendante. Aucun mandat bancaire, prélèvement ou SMS réel n'est créé.",
+    independence:
+      "Les informations proviennent d'un guide explicatif indépendant vérifié le 20 novembre 2026 et de pages publiques officielles. Ce n'est pas une procédure interne officielle de SOS.",
+    sources: "Sources publiques",
+    madeFor: "Conçu pour SOS Villages d'Enfants Tunisie — défi PAP Revolution.",
+  },
+  a11y: {
+    skip: "Aller au contenu principal",
+    navLabel: "Navigation des cinq onglets",
+    langLabel: "Choisir la langue",
+    dialogLabel: "Fenêtre de bienvenue",
+    closeDialog: "Fermer la fenêtre de bienvenue",
+    progress: "Progression",
+    scene: "Illustration pixel-art décorative",
+    previousTab: "Onglet précédent",
+    nextTab: "Onglet suivant",
+  },
+};
+
+export type Dictionary = typeof fr;
