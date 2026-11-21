@@ -3,21 +3,21 @@ export type ChatMessage = {
   content: string;
 };
 
-export type DeepSeekConfig = {
+export type GroqConfig = {
   apiKey: string;
   baseUrl: string;
   model: string;
   timeoutMs: number;
 };
 
-const DEFAULT_BASE_URL = "https://api.deepseek.com";
-const DEFAULT_MODEL = "deepseek-flash";
+const DEFAULT_BASE_URL = "https://api.groq.com/openai/v1";
+const DEFAULT_MODEL = "llama-3.3-70b-versatile";
 
-export function getDeepSeekConfig(): DeepSeekConfig | null {
-  const apiKey = process.env.DEEPSEEK_API_KEY?.trim();
+export function getGroqConfig(): GroqConfig | null {
+  const apiKey = process.env.GROQ_API_KEY?.trim();
   if (!apiKey) return null;
 
-  const rawBase = process.env.DEEPSEEK_BASE_URL?.trim() || DEFAULT_BASE_URL;
+  const rawBase = process.env.GROQ_BASE_URL?.trim() || DEFAULT_BASE_URL;
   let baseUrl: URL;
   try {
     baseUrl = new URL(rawBase);
@@ -26,34 +26,35 @@ export function getDeepSeekConfig(): DeepSeekConfig | null {
   }
   if (baseUrl.protocol !== "https:") return null;
 
-  const timeout = Number(process.env.DEEPSEEK_TIMEOUT_MS ?? 15000);
+  const timeout = Number(process.env.GROQ_TIMEOUT_MS ?? 15000);
   return {
     apiKey,
     baseUrl: baseUrl.origin + baseUrl.pathname.replace(/\/$/, ""),
-    model: process.env.DEEPSEEK_MODEL?.trim() || DEFAULT_MODEL,
+    model: process.env.GROQ_MODEL?.trim() || DEFAULT_MODEL,
     timeoutMs: Number.isFinite(timeout) && timeout > 1000 ? timeout : 15000,
   };
 }
 
-export function isDeepSeekConfigured(): boolean {
-  return getDeepSeekConfig() !== null;
+export function isGroqConfigured(): boolean {
+  return getGroqConfig() !== null;
 }
 
 type CompletionOptions = {
   maxTokens?: number;
   json?: boolean;
   timeoutMs?: number;
+  temperature?: number;
 };
 
 /**
- * Server-only DeepSeek call. Never throws and never logs secrets. Returns null
+ * Server-only Groq call. Never throws and never logs secrets. Returns null
  * on any failure so callers can fall back to the curated knowledge base.
  */
 export async function chatCompletion(
   messages: ChatMessage[],
   options: CompletionOptions = {},
 ): Promise<string | null> {
-  const config = getDeepSeekConfig();
+  const config = getGroqConfig();
   if (!config) return null;
 
   const controller = new AbortController();
@@ -72,7 +73,7 @@ export async function chatCompletion(
       body: JSON.stringify({
         model: config.model,
         messages,
-        temperature: 0.2,
+        temperature: options.temperature ?? 0.2,
         max_tokens: options.maxTokens ?? 700,
         ...(options.json ? { response_format: { type: "json_object" } } : {}),
       }),
