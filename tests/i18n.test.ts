@@ -40,6 +40,12 @@ describe("i18n dictionaries", () => {
   });
 
   it("has matching array lengths across languages", () => {
+    expect(fr.impact.stageNames).toHaveLength(7);
+    expect(ar.impact.stageNames).toHaveLength(7);
+    expect(en.impact.stageNames).toHaveLength(7);
+    expect(fr.impact.stageDescriptions).toHaveLength(7);
+    expect(ar.impact.stageDescriptions).toHaveLength(7);
+    expect(en.impact.stageDescriptions).toHaveLength(7);
     expect(ar.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(en.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(ar.impact.stageDescriptions).toHaveLength(fr.impact.stageDescriptions.length);
@@ -60,6 +66,19 @@ describe("i18n dictionaries", () => {
     expect(ar.assistant.suggestions).toHaveLength(fr.assistant.suggestions.length);
     expect(en.assistant.suggestions).toHaveLength(fr.assistant.suggestions.length);
     expect(ar.donate.rows).toHaveLength(fr.donate.rows.length);
+  });
+
+  it("names Basam in seven concise stage narrations", () => {
+    const names = { fr: "Basam", ar: "بسام", en: "Basam" } as const;
+    const dictionaries = { fr, ar, en } as const;
+    for (const lang of ["fr", "ar", "en"] as const) {
+      const lines = dictionaries[lang].impact.stageDescriptions;
+      expect(lines, lang).toHaveLength(7);
+      for (const line of lines) {
+        expect(line, `${lang}: ${line}`).toContain(names[lang]);
+        expect(line.length, `${lang}: ${line}`).toBeLessThanOrEqual(200);
+      }
+    }
   });
 
   it("has no empty translated strings", () => {

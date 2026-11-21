@@ -13,7 +13,7 @@ export const PAP = {
   maxInteractions: 24,
 } as const;
 
-export type Stage = 1 | 2 | 3 | 4 | 5;
+export type Stage = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 /** Number of symbolic gestures required to reach each stage. */
 export const STAGE_THRESHOLDS: Record<Stage, number> = {
@@ -22,22 +22,24 @@ export const STAGE_THRESHOLDS: Record<Stage, number> = {
   3: 4,
   4: 6,
   5: 8,
+  6: 10,
+  7: 12,
 };
 
-export const STAGES: Stage[] = [1, 2, 3, 4, 5];
+export const STAGES: Stage[] = [1, 2, 3, 4, 5, 6, 7];
 
 export function computeStage(interactions: number): Stage {
   const safe = Math.max(0, Math.min(PAP.maxInteractions, Math.floor(interactions)));
-  if (safe >= STAGE_THRESHOLDS[5]) return 5;
-  if (safe >= STAGE_THRESHOLDS[4]) return 4;
-  if (safe >= STAGE_THRESHOLDS[3]) return 3;
-  if (safe >= STAGE_THRESHOLDS[2]) return 2;
+  for (let index = STAGES.length - 1; index > 0; index -= 1) {
+    const stage = STAGES[index];
+    if (stage !== undefined && safe >= STAGE_THRESHOLDS[stage]) return stage;
+  }
   return 1;
 }
 
 export function nextStageAt(interactions: number): number | null {
   const stage = computeStage(interactions);
-  if (stage === 5) return null;
+  if (stage === 7) return null;
   const next = (stage + 1) as Stage;
   return STAGE_THRESHOLDS[next];
 }
@@ -51,7 +53,7 @@ export function gesturesToNextStage(interactions: number): number | null {
 /** Progress within the whole experience, 0..1. */
 export function experienceProgress(interactions: number): number {
   const safe = Math.max(0, Math.min(PAP.maxInteractions, interactions));
-  return Math.min(1, safe / STAGE_THRESHOLDS[5]);
+  return Math.min(1, safe / STAGE_THRESHOLDS[7]);
 }
 
 export function annualProjection(monthlyAmount: number): number {
