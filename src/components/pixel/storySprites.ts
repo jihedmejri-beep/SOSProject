@@ -22,187 +22,112 @@ function paint(width: number, runs: Run[]): string {
 
 const HERO_WIDTH = 16;
 
-const heroAlone: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwnwwnwn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwwnnwwn", 4],
-  [5, "nnnnnn", 5],
-  [3, "nn", "cccccc", "nn", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "ll", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
+type HumanLook = {
+  hair: string;
+  shirt: string;
+  trousers: string;
+  mouth: string;
+  crown?: string;
+  fringe?: string;
+  overrides?: Record<number, Run[]>;
+};
 
-const heroCared: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwnwwnwn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwwnnwwn", 4],
-  [5, "nnnnnn", 5],
-  [3, "nn", "cccccc", "nn", 3],
-  [2, "n", "cccccclccc", "n", 2],
-  [2, "n", "ccccccllcc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [3, "n", "cccccccc", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "ll", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
+function humanRuns(look: HumanLook): Run[][] {
+  const hair = look.hair;
+  const rows: Run[][] = [
+    [16],
+    [5, look.crown ?? "nnnnnn", 5],
+    [4, hair.repeat(8), 4],
+    [4, hair, look.fringe ?? "wwwwww", hair, 4],
+    [4, hair, "wnwwnw", hair, 4],
+    [4, hair, "wwwwww", hair, 4],
+    [4, hair, "wwwwww", hair, 4],
+    [4, hair, look.mouth, hair, 4],
+    [5, "n", "wwww", "n", 5],
+    [4, "nnnnnnnn", 4],
+    [2, look.shirt.repeat(12), 2],
+    [3, look.shirt.repeat(10), 3],
+    [3, look.shirt.repeat(10), 3],
+    [4, look.shirt.repeat(8), 4],
+    [4, look.shirt.repeat(8), 4],
+    [4, look.trousers.repeat(8), 4],
+    [5, "nn", 2, "nn", 5],
+    [5, look.trousers.repeat(2), 2, look.trousers.repeat(2), 5],
+    [5, look.trousers.repeat(2), 2, look.trousers.repeat(2), 5],
+    [5, "nnn", 2, "nnn", 3],
+  ];
+  for (const [index, run] of Object.entries(look.overrides ?? {})) {
+    rows[Number(index)] = run;
+  }
+  return rows;
+}
 
-const heroHome: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwwnnnww", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [4, "n", "cccccc", "n", 4],
-  [3, "n", "cccccccc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "ll", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
-
-const heroSchool: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnwwwwnw", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [4, "n", "cccccc", "n", 4],
-  [3, "n", "cccccccc", "n", 3],
-  [2, "n", "cccrrccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [3, "n", "llllllll", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "ll", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
-
-const heroPreteen: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnwwwwnw", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [4, "n", "cccccc", "n", 4],
-  [3, "n", "cccccccc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [3, "n", "llllllll", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [4, "n", "llllll", "n", 4],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "ll", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
-
-const heroTeen: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnwwwwnw", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [4, "n", "cccccc", "n", 4],
-  [3, "n", "ccwwwwcc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "cclllccccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [4, "n", "nnnnnn", "n", 4],
-  [4, "n", "nnnnnn", "n", 4],
-  [5, "n", "nnnn", "n", 5],
-  [6, "n", "nn", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
-
-const heroAdult: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnwwwwnw", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [4, "n", "cccccc", "n", 4],
-  [3, "n", "ccwwwwcc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "ccnnnncccc", "n", 2],
-  [2, "n", "cnnnnnnccc", "n", 2],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [4, "n", "nnnnnn", "n", 4],
-  [4, "n", "nnnnnn", "n", 4],
-  [4, "n", "nnnnnn", "n", 4],
-  [5, "n", "nnnn", "n", 5],
-  [6, "n", "nn", "n", 6],
-  [5, "n", "nnnn", "n", 5],
-  [16],
-];
+const heroLooks: Record<Stage, HumanLook> = {
+  1: {
+    hair: "n",
+    shirt: "l",
+    trousers: "n",
+    mouth: "nwwwwn",
+    fringe: "nnwwww",
+    overrides: { 10: [3, "l".repeat(10), 3] },
+  },
+  2: { hair: "n", shirt: "c", trousers: "l", mouth: "wwnnww", fringe: "nwwwww" },
+  3: { hair: "n", shirt: "c", trousers: "n", mouth: "wwnnww", fringe: "wwwwwn" },
+  4: {
+    hair: "n",
+    shirt: "c",
+    trousers: "l",
+    mouth: "wwnwww",
+    fringe: "nnwwww",
+    overrides: { 12: [3, "c", "rrrrcccc", "c", 3] },
+  },
+  5: {
+    hair: "n",
+    shirt: "c",
+    trousers: "n",
+    mouth: "wnnnww",
+    fringe: "nwwwwn",
+    overrides: { 13: [4, "ccrrrrcc", 4] },
+  },
+  6: {
+    hair: "n",
+    shirt: "n",
+    trousers: "n",
+    mouth: "wwnnnw",
+    fringe: "wwwwnn",
+    overrides: { 10: [2, "nwwwwwwwwwwn", 2] },
+  },
+  7: {
+    hair: "n",
+    shirt: "n",
+    trousers: "n",
+    mouth: "wnnnnw",
+    fringe: "nnnnww",
+    overrides: {
+      11: [1, "n", "nn", "wwwwwwww", "nn", "n", 1],
+      13: [4, "n", "rrrrrr", "n", 4],
+    },
+  },
+};
 
 const heroRuns: Record<Stage, Run[][]> = {
-  1: heroAlone,
-  2: heroCared,
-  3: heroHome,
-  4: heroSchool,
-  5: heroPreteen,
-  6: heroTeen,
-  7: heroAdult,
+  1: humanRuns(heroLooks[1]),
+  2: humanRuns(heroLooks[2]),
+  3: humanRuns(heroLooks[3]),
+  4: humanRuns(heroLooks[4]),
+  5: humanRuns(heroLooks[5]),
+  6: humanRuns(heroLooks[6]),
+  7: humanRuns(heroLooks[7]),
 };
 
 export const HERO_SPRITES: Record<Stage, string[]> = {
-  1: heroAlone.map((runs) => paint(HERO_WIDTH, runs)),
-  2: heroCared.map((runs) => paint(HERO_WIDTH, runs)),
-  3: heroHome.map((runs) => paint(HERO_WIDTH, runs)),
-  4: heroSchool.map((runs) => paint(HERO_WIDTH, runs)),
-  5: heroPreteen.map((runs) => paint(HERO_WIDTH, runs)),
-  6: heroTeen.map((runs) => paint(HERO_WIDTH, runs)),
-  7: heroAdult.map((runs) => paint(HERO_WIDTH, runs)),
+  1: heroRuns[1].map((runs) => paint(HERO_WIDTH, runs)),
+  2: heroRuns[2].map((runs) => paint(HERO_WIDTH, runs)),
+  3: heroRuns[3].map((runs) => paint(HERO_WIDTH, runs)),
+  4: heroRuns[4].map((runs) => paint(HERO_WIDTH, runs)),
+  5: heroRuns[5].map((runs) => paint(HERO_WIDTH, runs)),
+  6: heroRuns[6].map((runs) => paint(HERO_WIDTH, runs)),
+  7: heroRuns[7].map((runs) => paint(HERO_WIDTH, runs)),
 };
 
 export const HERO_EYES: Record<Stage, Array<[number, number]>> = {
@@ -246,115 +171,56 @@ export const HERO_BLINK: Record<Stage, string[]> = {
   7: withBlink(heroRuns[7].map((runs) => paint(HERO_WIDTH, runs)), HERO_EYES[7]),
 };
 
-const motherRuns: Run[][] = [
-  [16],
-  [6, "nnnn", 6],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnwwwwnw", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "cccccccc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "ccwwwwwwcc", "n", 2],
-  [2, "n", "ccwwwwwwcc", "n", 2],
-  [3, "n", "ccwwwwcc", "n", 3],
-  [3, "n", "cccccccc", "n", 3],
-  [4, "n", "cccccc", "n", 4],
-  [5, "n", "cccc", "n", 5],
-  [6, "n", "nn", "n", 6],
-  [16],
-];
+const motherRuns = humanRuns({
+  hair: "r",
+  shirt: "w",
+  trousers: "l",
+  mouth: "wwnnww",
+  crown: "rrrrrr",
+  fringe: "rrrrww",
+  overrides: { 12: [3, "w", "rrrrrrrr", "w", 3] },
+});
 
-const siblingARuns: Run[][] = [
-  [12],
-  [4, "nnnn", 4],
-  [3, "nnnnnn", 3],
-  [3, "nwwwwn", 3],
-  [3, "n", "wnwn", "n", 3],
-  [3, "nwwwwn", 3],
-  [3, "nwnnwn", 3],
-  [3, "n", "llll", "n", 3],
-  [2, "n", "llllll", "n", 2],
-  [2, "n", "llllll", "n", 2],
-  [3, "n", "llll", "n", 3],
-  [4, "n", "nn", "n", 4],
-  [12],
-];
+const siblingARuns = humanRuns({
+  hair: "n",
+  shirt: "l",
+  trousers: "c",
+  mouth: "wwnwww",
+  fringe: "wwwwnn",
+});
 
-const siblingBRuns: Run[][] = [
-  [12],
-  [4, "nnnn", 4],
-  [3, "nnnnnn", 3],
-  [3, "nwwwwn", 3],
-  [3, "n", "wnwn", "n", 3],
-  [3, "nwwwwn", 3],
-  [3, "n", "nwwn", "n", 3],
-  [3, "n", "cccc", "n", 3],
-  [2, "n", "cccccc", "n", 2],
-  [2, "n", "cccccc", "n", 2],
-  [3, "n", "nnnn", "n", 3],
-  [4, "n", "nn", "n", 4],
-  [12],
-];
+const siblingBRuns = humanRuns({
+  hair: "r",
+  shirt: "r",
+  trousers: "l",
+  mouth: "wnnnww",
+  crown: "rrrrrr",
+  fringe: "nnwwww",
+});
 
-const directorRuns: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "nwwwwwwn", "n", 3],
-  [3, "n", "wwnwwnww", "n", 3],
-  [3, "n", "wwwwwwww", "n", 3],
-  [3, "n", "wnnnnnww", "n", 3],
-  [4, "nnnnnnnn", 4],
-  [3, "n", "nnwwnnnn", "n", 3],
-  [2, "n", "nnwwwwnnnn", "n", 2],
-  [2, "n", "nnwwwwnnnn", "n", 2],
-  [3, "n", "nnwwnnnn", "n", 3],
-  [3, "n", "nnnnnnnn", "n", 3],
-  [4, "n", "nnnnnn", "n", 4],
-  [5, "n", "nnnn", "n", 5],
-  [6, "n", "nn", "n", 6],
-  [16],
-];
+const directorRuns = humanRuns({
+  hair: "n",
+  shirt: "n",
+  trousers: "n",
+  mouth: "wwnnnw",
+  overrides: { 10: [2, "nwwwwwwwwwwn", 2] },
+});
 
-const staffRuns: Run[][] = [
-  [16],
-  [5, "nnnnnn", 5],
-  [4, "nnnnnnnn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwnwwnwn", 4],
-  [4, "nwwwwwwn", 4],
-  [4, "nwnnnwwn", 4],
-  [5, "nnnnnn", 5],
-  [3, "n", "cccccccc", "n", 3],
-  [2, "n", "cccccccccc", "n", 2],
-  [2, "n", "ccrrrrcccc", "n", 2],
-  [3, "n", "cccccccc", "n", 3],
-  [3, "n", "cccccccc", "n", 3],
-  [4, "n", "llllll", "n", 4],
-  [5, "n", "llll", "n", 5],
-  [6, "n", "nn", "n", 6],
-  [16],
-];
+const staffRuns = humanRuns({
+  hair: "n",
+  shirt: "c",
+  trousers: "l",
+  mouth: "wwnnww",
+  fringe: "nwwwwn",
+  overrides: { 12: [3, "c", "rrrrrrrr", "c", 3] },
+});
 
-const friendRuns: Run[][] = [
-  [12],
-  [4, "nnnn", 4],
-  [3, "nnnnnn", 3],
-  [3, "nwwwwn", 3],
-  [3, "n", "wnwn", "n", 3],
-  [3, "nwwwwn", 3],
-  [3, "n", "nwwn", "n", 3],
-  [3, "n", "wwww", "n", 3],
-  [2, "n", "cccccc", "n", 2],
-  [3, "n", "llll", "n", 3],
-  [4, "n", "nn", "n", 4],
-  [12],
-];
+const friendRuns = humanRuns({
+  hair: "n",
+  shirt: "l",
+  trousers: "c",
+  mouth: "wnnnww",
+});
 
 const bowlRuns: Run[][] = [
   [9],
@@ -486,11 +352,11 @@ function sprite(width: number, runs: Run[][]): string[] {
 }
 
 export const MOTHER = sprite(16, motherRuns);
-export const SIBLING_A = sprite(12, siblingARuns);
-export const SIBLING_B = sprite(12, siblingBRuns);
+export const SIBLING_A = sprite(16, siblingARuns);
+export const SIBLING_B = sprite(16, siblingBRuns);
 export const DIRECTOR = sprite(16, directorRuns);
 export const STAFF = sprite(16, staffRuns);
-export const CHILD_FRIEND = sprite(12, friendRuns);
+export const CHILD_FRIEND = sprite(16, friendRuns);
 export const BOWL = sprite(9, bowlRuns);
 export const TOY_BALL = sprite(8, ballRuns);
 export const BOOK = sprite(9, bookRuns);
