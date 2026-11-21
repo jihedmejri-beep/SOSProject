@@ -1,7 +1,20 @@
 import { describe, expect, it } from "vitest";
+import {
+  QUIZ_DISTRIBUTION,
+  QUIZ_LENGTH,
+  type Difficulty,
+  type QuizQuestion,
+} from "@/lib/pap/quiz";
+import { QUIZ_REFERENCE_FACTS } from "@/lib/pap/quizReference";
 import { createRateLimiter } from "@/lib/server/rateLimit";
 import {
+  QUIZ_SYSTEM_PROMPT,
+  buildQuizFacts,
+  buildQuizUserPrompt,
   parseJsonObject,
+  parseQuizRequestBody,
+  parseSeenPrompts,
+  selectBalancedQuestions,
   validateGeneratedQuestions,
 } from "@/lib/server/quizGeneration";
 
@@ -31,6 +44,33 @@ function validQuestion(overrides: Record<string, unknown> = {}) {
       en: "PAP is a recurring and voluntary monthly contribution.",
     },
     ...overrides,
+  };
+}
+
+function generatedQuestion(id: string, difficulty: Difficulty): QuizQuestion {
+  return {
+    id,
+    difficulty,
+    topic: "ai-generated",
+    sourcePage: 4,
+    question: {
+      fr: `Question ${id}`,
+      ar: `سؤال ${id}`,
+      en: `Question ${id}`,
+    },
+    options: [
+      { fr: "A", ar: "أ", en: "A" },
+      { fr: "B", ar: "ب", en: "B" },
+      { fr: "C", ar: "ج", en: "C" },
+      { fr: "D", ar: "د", en: "D" },
+    ],
+    correct: 0,
+    explanation: {
+      fr: "Explication de test suffisamment longue.",
+      ar: "توضيح اختباري طويل بما يكفي.",
+      en: "A sufficiently long test explanation.",
+    },
+    aiGenerated: true,
   };
 }
 
@@ -91,6 +131,16 @@ describe("generated quiz validation", () => {
     ).toHaveLength(0);
   });
 
+  it("rejects source pages outside the reference fact set", () => {
+    const allowed = new Set(QUIZ_REFERENCE_FACTS.map((fact) => fact.page));
+    expect(
+      validateGeneratedQuestions({ questions: [validQuestion({ sourcePage: 12 })] }, allowed),
+    ).toHaveLength(0);
+    expect(
+      validateGeneratedQuestions({ questions: [validQuestion({ sourcePage: 4 })] }, allowed),
+    ).toHaveLength(1);
+  });
+
   it("deduplicates questions with the same French prompt", () => {
     const result = validateGeneratedQuestions({
       questions: [validQuestion(), validQuestion()],
@@ -101,5 +151,83 @@ describe("generated quiz validation", () => {
   it("parses JSON wrapped in prose", () => {
     expect(parseJsonObject('voici: {"a":1} merci')).toEqual({ a: 1 });
     expect(parseJsonObject("pas de json")).toBeNull();
+  });
+});
+
+describe("generated quiz selection", () => {
+  it("asks the model for exactly five questions with a 2/2/1 split", () => {
+    expect(QUIZ_SYSTEM_PROMPT).toContain("exactly 5 questions");
+    expect(QUIZ_SYSTEM_PROMPT).toContain("2 easy, 2 medium and 1 hard");
+    expect(QUIZ_SYSTEM_PROMPT).toContain("ONLY the FACTS");
+  });
+
+  it("labels every reference fact with its guide page", () => {
+    const facts = buildQuizFacts(QUIZ_REFERENCE_FACTS);
+    for (const fact of QUIZ_REFERENCE_FACTS) {
+      expect(facts).toContain(`[p.${fact.page}] ${fact.text}`);
+    }
+  });
+
+  it("selects a balanced five-question quiz", () => {
+    const generated = [
+      generatedQuestion("e1", "easy"),
+      generatedQuestion("e2", "easy"),
+      generatedQuestion("e3", "easy"),
+      generatedQuestion("m1", "medium"),
+      generatedQuestion("m2", "medium"),
+      generatedQuestion("m3", "medium"),
+      generatedQuestion("h1", "hard"),
+      generatedQuestion("h2", "hard"),
+    ];
+    const selected = selectBalancedQuestions(generated, () => 0.5);
+    expect(selected).not.toBeNull();
+    expect(selected).toHaveLength(QUIZ_LENGTH);
+    for (const level of ["easy", "medium", "hard"] as const) {
+      expect(selected?.filter((question) => question.difficulty === level)).toHaveLength(
+        QUIZ_DISTRIBUTION[level],
+      );
+    }
+  });
+
+  it("rejects a generation that lacks a difficulty", () => {
+    const generated = [
+      generatedQuestion("e1", "easy"),
+      generatedQuestion("e2", "easy"),
+      generatedQuestion("m1", "medium"),
+      generatedQuestion("m2", "medium"),
+    ];
+    expect(selectBalancedQuestions(generated)).toBeNull();
+  });
+});
+
+describe("seen prompts", () => {
+  it("accepts only string arrays, normalized and bounded", () => {
+    expect(parseSeenPrompts(null)).toEqual([]);
+    expect(parseSeenPrompts("not-an-array")).toEqual([]);
+    expect(parseSeenPrompts([1, {}, "  Quelle   est  la  definition  "])).toEqual([
+      "Quelle est la definition",
+    ]);
+    expect(parseSeenPrompts(Array.from({ length: 25 }, (_, i) => `q${i}`))).toHaveLength(20);
+    expect(parseSeenPrompts(["x".repeat(250)])[0]).toHaveLength(200);
+  });
+
+  it("builds a user prompt with an AVOID block only when history exists", () => {
+    const facts = "[p.4] PAP is a voluntary contribution.";
+    expect(buildQuizUserPrompt(facts, [])).toContain(facts);
+    expect(buildQuizUserPrompt(facts, [])).not.toContain("AVOID");
+    const prompt = buildQuizUserPrompt(facts, ["Question A", "Question B"]);
+    expect(prompt).toContain("AVOID");
+    expect(prompt).toContain("1. Question A");
+    expect(prompt).toContain("2. Question B");
+  });
+
+  it("parses the quiz request body tolerantly", () => {
+    expect(parseQuizRequestBody(null)).toEqual({ seen: [] });
+    expect(parseQuizRequestBody("not json")).toEqual({ seen: [] });
+    expect(parseQuizRequestBody(JSON.stringify({ seen: [" Q1 "] }))).toEqual({ seen: ["Q1"] });
+  });
+
+  it("instructs the model not to reuse previous prompts", () => {
+    expect(QUIZ_SYSTEM_PROMPT).toContain("previously used prompts");
   });
 });

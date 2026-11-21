@@ -7,6 +7,8 @@ import { LANGS } from "@/lib/i18n/types";
 const DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 const MIN_PAGE = 3;
 const MAX_PAGE = 17;
+const SEEN_PROMPT_MAX = 20;
+const SEEN_PROMPT_CHARS = 200;
 
 export const QUIZ_SYSTEM_PROMPT = [
   "You write a short quiz about the PAP (Prélèvement Automatique Permanent) of SOS Villages d'Enfants Tunisie.",
@@ -18,10 +20,44 @@ export const QUIZ_SYSTEM_PROMPT = [
   "Each question has exactly 4 options and one correct index from 0 to 3.",
   "sourcePage must be one of the page numbers present in the FACTS.",
   'Return ONLY JSON: {"questions":[{"difficulty":"easy","sourcePage":4,"question":{"fr":"","ar":"","en":""},"options":[{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""}],"correct":0,"explanation":{"fr":"","ar":"","en":""}}]}.',
+  "If the user message lists previously used prompts, do not reuse them or near-duplicates.",
 ].join(" ");
 
 export function buildQuizFacts(facts: QuizReferenceFact[]): string {
   return facts.map((fact) => `[p.${fact.page}] ${fact.text}`).join("\n");
+}
+
+export function parseSeenPrompts(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const seen: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== "string") continue;
+    const normalized = item.replace(/\s+/g, " ").trim();
+    if (normalized.length === 0) continue;
+    seen.push(normalized.slice(0, SEEN_PROMPT_CHARS));
+  }
+  return seen.slice(0, SEEN_PROMPT_MAX);
+}
+
+export function buildQuizUserPrompt(facts: string, seen: string[]): string {
+  let prompt = `FACTS:\n${facts}`;
+  if (seen.length > 0) {
+    prompt += "\n\nAVOID THESE PREVIOUS QUESTION PROMPTS (do not reuse or paraphrase):\n";
+    prompt += seen.map((item, index) => `${index + 1}. ${item}`).join("\n");
+  }
+  return prompt;
+}
+
+export function parseQuizRequestBody(raw: string | null): { seen: string[] } {
+  if (!raw) return { seen: [] };
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { seen: [] };
+  }
+  if (!isRecord(parsed)) return { seen: [] };
+  return { seen: parseSeenPrompts((parsed as { seen?: unknown }).seen) };
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
