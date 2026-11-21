@@ -253,6 +253,7 @@ code { font-family: ui-monospace, "Cascadia Mono", monospace; font-size: 0.95em;
   padding: 8px 18px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   overflow-x: auto;
   scrollbar-width: thin;
