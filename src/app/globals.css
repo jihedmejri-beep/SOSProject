@@ -654,6 +654,19 @@ svg {
   );
 }
 
+/* Stage 1: a cooler, quieter sky before care arrives. */
+.scene--overcast {
+  background: linear-gradient(180deg, var(--light-blue) 0%, var(--pale-blue) 88%);
+}
+
+.scene--overcast::before {
+  opacity: 0.4;
+}
+
+.scene--overcast .scene-ground {
+  background: var(--pale-blue);
+}
+
 .scene-item {
   position: absolute;
   z-index: 3;

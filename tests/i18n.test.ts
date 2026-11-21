@@ -40,6 +40,12 @@ describe("i18n dictionaries", () => {
   });
 
   it("has matching array lengths across languages", () => {
+    expect(fr.impact.stageNames).toHaveLength(7);
+    expect(ar.impact.stageNames).toHaveLength(7);
+    expect(en.impact.stageNames).toHaveLength(7);
+    expect(fr.impact.stageDescriptions).toHaveLength(7);
+    expect(ar.impact.stageDescriptions).toHaveLength(7);
+    expect(en.impact.stageDescriptions).toHaveLength(7);
     expect(ar.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(en.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(ar.impact.stageDescriptions).toHaveLength(fr.impact.stageDescriptions.length);
