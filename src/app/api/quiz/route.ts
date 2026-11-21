@@ -45,7 +45,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       { role: "system", content: QUIZ_SYSTEM_PROMPT },
       { role: "user", content: buildQuizUserPrompt(buildQuizFacts(QUIZ_REFERENCE_FACTS), seen) },
     ],
-    { json: true, maxTokens: 2400, timeoutMs: 30000, temperature: 0.7 },
+    { json: true, maxTokens: 6000, timeoutMs: 30000, temperature: 0.7 },
   );
 
   const generated = validateGeneratedQuestions(parseJsonObject(raw), REFERENCE_PAGES);

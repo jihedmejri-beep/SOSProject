@@ -26,7 +26,7 @@ describe("quiz route", () => {
     mocks.chatCompletion.mockResolvedValue(null);
     await POST(request({ seen: ["  Quelle   definition  "] }, "route-args"));
     const [messages, options] = mocks.chatCompletion.mock.calls[0]!;
-    expect(options).toMatchObject({ json: true, maxTokens: 2400, timeoutMs: 30000, temperature: 0.7 });
+    expect(options).toMatchObject({ json: true, maxTokens: 6000, timeoutMs: 30000, temperature: 0.7 });
     expect(messages[1].content).toContain("AVOID");
     expect(messages[1].content).toContain("Quelle definition");
   });
