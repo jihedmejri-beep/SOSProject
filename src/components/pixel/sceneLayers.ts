@@ -28,6 +28,10 @@ import {
   TOY_BALL,
 } from "./storySprites";
 
+export const CHARACTER_WIDTH_CHILD = "clamp(34px, 5.4vw, 56px)";
+export const CHARACTER_WIDTH_SCHOOL = "clamp(44px, 7vw, 72px)";
+export const CHARACTER_WIDTH_ADULT = "clamp(52px, 8.4vw, 86px)";
+
 export type SceneLayer = {
   readonly id: string;
   readonly sprite: readonly string[];
@@ -52,17 +56,14 @@ function layer(
   return { id, sprite, left, bottom, width, zIndex, className, blink };
 }
 
+function heroWidth(stage: Stage): string {
+  if (stage <= 3) return CHARACTER_WIDTH_CHILD;
+  if (stage <= 5) return CHARACTER_WIDTH_SCHOOL;
+  return CHARACTER_WIDTH_ADULT;
+}
+
 const hero = (stage: Stage): SceneLayer =>
-  layer(
-    "hero",
-    HERO_SPRITES[stage],
-    "44%",
-    "12%",
-    `clamp(${44 + stage * 4}px, ${8 + stage * 0.5}vw, ${76 + stage * 7}px)`,
-    5,
-    "bob",
-    true,
-  );
+  layer("hero", HERO_SPRITES[stage], "44%", "12%", heroWidth(stage), 5, "bob", true);
 
 const blinkRows = (stage: Stage): readonly string[] => HERO_BLINK[stage];
 
@@ -136,7 +137,7 @@ const home: readonly SceneLayer[] = [
     MOTHER,
     "30%",
     "12%",
-    "clamp(42px, 7vw, 72px)",
+    CHARACTER_WIDTH_ADULT,
     4,
     "scene-pop",
   ),
@@ -168,7 +169,7 @@ const playSchool: readonly SceneLayer[] = [
     MOTHER,
     "30%",
     "12%",
-    "clamp(42px, 7vw, 72px)",
+    CHARACTER_WIDTH_ADULT,
     4,
   ),
   layer("book", BOOK, "55%", "14%", "clamp(18px, 3vw, 30px)", 5, "scene-pop"),
@@ -201,7 +202,7 @@ const family: readonly SceneLayer[] = [
     MOTHER,
     "30%",
     "12%",
-    "clamp(42px, 7vw, 72px)",
+    CHARACTER_WIDTH_ADULT,
     4,
   ),
   layer("book", BOOK, "55%", "14%", "clamp(18px, 3vw, 30px)", 5),
@@ -211,7 +212,7 @@ const family: readonly SceneLayer[] = [
     SIBLING_A,
     "59%",
     "12%",
-    "clamp(34px, 5.6vw, 58px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "scene-pop bob",
   ),
@@ -220,7 +221,7 @@ const family: readonly SceneLayer[] = [
     SIBLING_B,
     "71%",
     "12%",
-    "clamp(32px, 5.2vw, 54px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "scene-pop bob hide-sm",
   ),
@@ -269,7 +270,7 @@ const village: readonly SceneLayer[] = [
     MOTHER,
     "30%",
     "12%",
-    "clamp(42px, 7vw, 72px)",
+    CHARACTER_WIDTH_ADULT,
     4,
   ),
   layer("book", BOOK, "55%", "14%", "clamp(18px, 3vw, 30px)", 5),
@@ -279,7 +280,7 @@ const village: readonly SceneLayer[] = [
     SIBLING_A,
     "59%",
     "12%",
-    "clamp(34px, 5.6vw, 58px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "bob",
   ),
@@ -288,7 +289,7 @@ const village: readonly SceneLayer[] = [
     SIBLING_B,
     "71%",
     "12%",
-    "clamp(32px, 5.2vw, 54px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "bob hide-sm",
   ),
@@ -297,7 +298,7 @@ const village: readonly SceneLayer[] = [
     DIRECTOR,
     "79%",
     "12%",
-    "clamp(40px, 6.4vw, 66px)",
+    CHARACTER_WIDTH_ADULT,
     4,
     "scene-pop hide-sm",
   ),
@@ -355,7 +356,7 @@ const future: readonly SceneLayer[] = [
     MOTHER,
     "30%",
     "12%",
-    "clamp(42px, 7vw, 72px)",
+    CHARACTER_WIDTH_ADULT,
     4,
   ),
   layer(
@@ -363,7 +364,7 @@ const future: readonly SceneLayer[] = [
     STAFF,
     "24%",
     "12%",
-    "clamp(38px, 6vw, 62px)",
+    CHARACTER_WIDTH_ADULT,
     4,
     "scene-pop hide-sm",
   ),
@@ -374,7 +375,7 @@ const future: readonly SceneLayer[] = [
     SIBLING_A,
     "59%",
     "12%",
-    "clamp(34px, 5.6vw, 58px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "bob",
   ),
@@ -383,7 +384,7 @@ const future: readonly SceneLayer[] = [
     SIBLING_B,
     "71%",
     "12%",
-    "clamp(32px, 5.2vw, 54px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "bob hide-sm",
   ),
@@ -392,7 +393,7 @@ const future: readonly SceneLayer[] = [
     DIRECTOR,
     "79%",
     "12%",
-    "clamp(40px, 6.4vw, 66px)",
+    CHARACTER_WIDTH_ADULT,
     4,
   ),
   layer(
@@ -400,7 +401,7 @@ const future: readonly SceneLayer[] = [
     CHILD_FRIEND,
     "67%",
     "12%",
-    "clamp(32px, 5.2vw, 54px)",
+    CHARACTER_WIDTH_CHILD,
     4,
     "scene-pop bob hide-sm",
   ),
@@ -409,7 +410,7 @@ const future: readonly SceneLayer[] = [
     STAFF,
     "90%",
     "12%",
-    "clamp(34px, 5.4vw, 56px)",
+    CHARACTER_WIDTH_ADULT,
     4,
     "scene-pop hide-sm",
   ),
