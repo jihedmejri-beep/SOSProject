@@ -1,4 +1,6 @@
 // @ts-nocheck
+import { followScrollTop } from "../followAvatar";
+
 /* ------------------------------------------------------------------
    TSX port of assets/js/screens-map.js
    The original source below is preserved verbatim. The only wrapper
@@ -21,6 +23,22 @@ export default function run(doc) {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   };
   var stepTimer = 0;
+
+  function keepAvatarInView(point) {
+    if (!play.playing || !point) return;
+    if (!window.matchMedia || !window.matchMedia('(max-width: 767px)').matches) return;
+    var board = document.getElementById('board');
+    if (!board) return;
+    var avatarTop = board.getBoundingClientRect().top + window.scrollY + point.y;
+    var target = followScrollTop(avatarTop, {
+      scrollTop: window.scrollY,
+      height: window.innerHeight,
+      margin: Math.min(220, window.innerHeight * 0.3)
+    });
+    if (target !== null && Math.abs(target - window.scrollY) > 1) {
+      window.scrollTo({ top: target, behavior: 'instant' });
+    }
+  }
 
   function stateChip(n) {
     var st = Store.state;
@@ -263,6 +281,7 @@ export default function run(doc) {
         avatar.style.transform = 'translate(' + p.x + 'px,' + (p.y - 22) + 'px) translate(-50%,-58%)';
       }
     }
+    keepAvatarInView(pt);
   }
 
   function levelAt(progress) {
@@ -347,6 +366,7 @@ export default function run(doc) {
         if (av && p) {
           av.style.opacity = '1';
           av.style.transform = 'translate(' + p.x + 'px,' + (p.y - 22) + 'px) translate(-50%,-58%)';
+          keepAvatarInView({ x: p.x, y: p.y - 22 });
         }
       }
       i++;
