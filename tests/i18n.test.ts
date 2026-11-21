@@ -63,6 +63,19 @@ describe("i18n dictionaries", () => {
     expect(ar.donate.rows).toHaveLength(fr.donate.rows.length);
   });
 
+  it("names Basam in seven concise stage narrations", () => {
+    const names = { fr: "Basam", ar: "بسام", en: "Basam" } as const;
+    const dictionaries = { fr, ar, en } as const;
+    for (const lang of ["fr", "ar", "en"] as const) {
+      const lines = dictionaries[lang].impact.stageDescriptions;
+      expect(lines, lang).toHaveLength(7);
+      for (const line of lines) {
+        expect(line, `${lang}: ${line}`).toContain(names[lang]);
+        expect(line.length, `${lang}: ${line}`).toBeLessThanOrEqual(200);
+      }
+    }
+  });
+
   it("has no empty translated strings", () => {
     for (const dictionary of [fr, ar, en]) {
       for (const text of strings(dictionary)) {
