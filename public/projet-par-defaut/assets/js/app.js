@@ -95,6 +95,14 @@
     UI.toast(UI.t('u.lang') + ' : ' + lang.toUpperCase(), 'success', 1800);
   }
 
+  function notifyHeight() {
+    if (window.parent === window) return;
+    window.parent.postMessage(
+      { type: 'pap-embed-height', height: Math.ceil(document.documentElement.scrollHeight) },
+      window.location.origin
+    );
+  }
+
   function render() {
     var st = Store.state;
     if (!app) app = document.getElementById('app') || document.getElementById('main');
@@ -125,6 +133,8 @@
 
     if (current.name === 'stage') screen.mount(app, current.n);
     else screen.mount(app);
+
+    notifyHeight();
 
     var main = document.getElementById('main');
     if (main) main.focus({ preventScroll: true });
@@ -173,6 +183,11 @@
     render();
 
     Store.on(function () { /* state saved by actions; chrome refreshed explicitly */ });
+
+    window.addEventListener('resize', notifyHeight);
+    if (window.ResizeObserver) {
+      new ResizeObserver(notifyHeight).observe(document.body);
+    }
   }
 
   window.App = {

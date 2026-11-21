@@ -240,6 +240,14 @@
     return Math.min(1, Math.max(0, Store.state.playback.progress || play.progress || 0));
   }
 
+  function notifyAvatar(pt) {
+    if (!play.playing || window.parent === window) return;
+    var board = document.getElementById('board');
+    if (!board) return;
+    var y = board.getBoundingClientRect().top + window.scrollY + pt.y;
+    window.parent.postMessage({ type: 'pap-embed-avatar', y: Math.ceil(y) }, window.location.origin);
+  }
+
   function paintAvatar(progress) {
     var avatar = document.getElementById('boardAvatar');
     if (!avatar || !geo.path || !geo.total) return;
@@ -247,6 +255,7 @@
     var pt = geo.path.getPointAtLength(L);
     avatar.style.transform = 'translate(' + pt.x + 'px,' + pt.y + 'px) translate(-50%,-58%)';
     avatar.style.opacity = '1';
+    notifyAvatar(pt);
     if (!play.playing) {
       var lvl = Store.currentLevel() - 1;
       if (progress <= 0.001 && geo.points[lvl]) {
@@ -338,6 +347,7 @@
         if (av && p) {
           av.style.opacity = '1';
           av.style.transform = 'translate(' + p.x + 'px,' + (p.y - 22) + 'px) translate(-50%,-58%)';
+          notifyAvatar(p);
         }
       }
       i++;
