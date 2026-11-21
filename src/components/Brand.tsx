@@ -1,31 +1,13 @@
 "use client";
 
-import { PixelSprite, type PixelPalette } from "@/components/pixel/PixelSprite";
-import { CHILD, SPROUT } from "@/components/pixel/sprites";
-
-const WHITE_SILHOUETTE: PixelPalette = {
-  n: "white",
-  w: "white",
-  c: "white",
-  l: "white",
-  r: "white",
-};
+import Image from "next/image";
+import logo from "@/components/images/logo.jpeg";
 
 export function Brand() {
   return (
     <div className="brand">
       <span className="brand-mark" aria-hidden="true">
-        <PixelSprite rows={CHILD} palette={WHITE_SILHOUETTE} className="brand-child" />
-        <PixelSprite
-          rows={SPROUT}
-          palette={{ n: "white", c: "white" }}
-          className="brand-sprout"
-        />
-        <PixelSprite
-          rows={CHILD}
-          palette={WHITE_SILHOUETTE}
-          className="brand-child brand-child-2"
-        />
+        <Image src={logo} alt="" className="brand-logo" />
       </span>
       <span className="brand-text">
         <span className="brand-name">SOS Villages d&apos;Enfants</span>
