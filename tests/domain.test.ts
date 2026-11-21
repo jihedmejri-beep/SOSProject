@@ -14,7 +14,8 @@ import {
 } from "@/lib/pap/domain";
 
 describe("village stage progression", () => {
-  it("starts at stage 1 and reaches stage 5 at 8 gestures", () => {
+  it("starts at stage 1 and reaches stage 7 at 12 gestures", () => {
+    expect(STAGE_THRESHOLDS[7]).toBe(12);
     expect(computeStage(0)).toBe(1);
     expect(computeStage(1)).toBe(1);
     expect(computeStage(2)).toBe(2);
@@ -24,7 +25,12 @@ describe("village stage progression", () => {
     expect(computeStage(6)).toBe(4);
     expect(computeStage(7)).toBe(4);
     expect(computeStage(8)).toBe(5);
-    expect(computeStage(100)).toBe(5);
+    expect(computeStage(9)).toBe(5);
+    expect(computeStage(10)).toBe(6);
+    expect(computeStage(11)).toBe(6);
+    expect(computeStage(12)).toBe(7);
+    expect(computeStage(13)).toBe(7);
+    expect(computeStage(100)).toBe(7);
   });
 
   it("never goes below stage 1 for negative input", () => {
@@ -33,16 +39,14 @@ describe("village stage progression", () => {
 
   it("computes remaining gestures to the next stage", () => {
     expect(gesturesToNextStage(0)).toBe(2);
-    expect(gesturesToNextStage(1)).toBe(1);
-    expect(gesturesToNextStage(7)).toBe(1);
-    expect(gesturesToNextStage(8)).toBeNull();
-    expect(STAGE_THRESHOLDS[5]).toBe(8);
+    expect(gesturesToNextStage(10)).toBe(2);
+    expect(gesturesToNextStage(12)).toBeNull();
   });
 
   it("keeps experience progress within 0..1", () => {
     expect(experienceProgress(0)).toBe(0);
-    expect(experienceProgress(4)).toBe(0.5);
-    expect(experienceProgress(8)).toBe(1);
+    expect(experienceProgress(6)).toBe(0.5);
+    expect(experienceProgress(12)).toBe(1);
     expect(experienceProgress(40)).toBe(1);
   });
 });
