@@ -14,6 +14,7 @@ import {
 } from "@/components/icons";
 import { JOURNEY_SCENES } from "@/lib/journey/scenes";
 import { JOURNEY_STAGES } from "@/lib/journey/stages";
+import { StageSim } from "@/components/journey/StageSim";
 
 function Scene({ index, label }: { index: number; label: string }) {
   const svg = JOURNEY_SCENES[index];
@@ -91,12 +92,6 @@ export function Journey() {
 
   return (
     <>
-      <div className="page-head">
-        <span className="kicker">{copy.kicker}</span>
-        <h1>{copy.title}</h1>
-        <p className="lede">{copy.subtitle}</p>
-      </div>
-
       <div className="card stack">
         <div className="spread">
           <span className="badge badge-cyan">
@@ -143,6 +138,7 @@ export function Journey() {
                 <h3 className="mt-1">{copy.actors}</h3>
                 <p className="small">{selectedCopy.who}</p>
                 <p className="note">{selectedCopy.note}</p>
+                <StageSim index={selectedIndex} mode={selectedMeta.simMode} />
               </div>
             </div>
             <div className="spread">
@@ -183,6 +179,7 @@ export function Journey() {
                   type="button"
                   className={`journey-card journey-card--${state}`}
                   data-state={state}
+                  style={{ animationDelay: `${index * 45}ms` }}
                   onClick={() => open(stage.number)}
                 >
                   <span className="journey-card__top">

@@ -110,7 +110,7 @@ export function AssistantTab() {
             </span>
             <div style={{ flex: 1, minWidth: 0 }}>
               <strong>{t.assistant.assistant}</strong>
-              <small>{t.assistant.modeCurated}</small>
+              <small>{t.assistant.grounded}</small>
             </div>
             <button
               type="button"
@@ -125,14 +125,18 @@ export function AssistantTab() {
 
           <div className="chat-scroll" ref={scrollRef} aria-live="polite">
             <div className="msg msg-assistant">
-              <div className="msg-bubble">{t.assistant.welcome}</div>
+              <div className="msg-bubble" dir="auto">
+                {t.assistant.welcome}
+              </div>
             </div>
 
             {messages.map((message) => {
               if (message.role === "user") {
                 return (
                   <div key={message.id} className="msg msg-user">
-                    <div className="msg-bubble">{message.text}</div>
+                    <div className="msg-bubble" dir="auto">
+                      {message.text}
+                    </div>
                     <span className="msg-meta">{t.assistant.you}</span>
                   </div>
                 );
@@ -141,7 +145,7 @@ export function AssistantTab() {
               if (message.role === "error") {
                 return (
                   <div key={message.id} className="msg msg-assistant">
-                    <div className="msg-bubble">
+                    <div className="msg-bubble" dir="auto">
                       <strong>{t.assistant.errorTitle}</strong>
                       <p>{t.assistant.errorBody}</p>
                       <button
@@ -165,7 +169,9 @@ export function AssistantTab() {
                       {t.assistant.unsupportedTitle}
                     </span>
                   ) : null}
-                  <div className="msg-bubble">{message.text}</div>
+                  <div className="msg-bubble" dir="auto">
+                    {message.text}
+                  </div>
                   {message.citations && message.citations.length > 0 ? (
                     <div className="citations">
                       <span className="msg-meta">{t.assistant.citations} :</span>
@@ -175,7 +181,8 @@ export function AssistantTab() {
                           className="citation"
                           title={citation.title}
                         >
-                          {citation.page} · {statusLabel[citation.status]}
+                          {citation.source === "reference" ? `§${citation.page}` : citation.page} ·{" "}
+                          {statusLabel[citation.status]}
                         </span>
                       ))}
                     </div>
@@ -222,6 +229,7 @@ export function AssistantTab() {
               id="assistant-input"
               className="chat-input"
               rows={1}
+              dir="auto"
               value={input}
               placeholder={t.assistant.placeholder}
               maxLength={600}

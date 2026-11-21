@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { QuizResponse } from "@/lib/api/types";
 import { KNOWLEDGE } from "@/lib/pap/knowledge";
 import { buildQuiz, QUIZ_LENGTH, shuffle, type Difficulty, type QuizQuestion } from "@/lib/pap/quiz";
-import { chatCompletion } from "@/lib/server/deepseek";
+import { chatCompletion } from "@/lib/server/groq";
 import {
   parseJsonObject,
   validateGeneratedQuestions,

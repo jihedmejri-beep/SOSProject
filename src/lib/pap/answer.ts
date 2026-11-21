@@ -12,6 +12,7 @@ export type Citation = {
   page: number;
   title: string;
   status: SourceStatus;
+  source?: "guide" | "reference";
 };
 
 export type GroundedAnswer = {
@@ -33,6 +34,7 @@ function citationsForPages(pages: number[], lang: Lang): Citation[] {
       page,
       title: pickLocalized(chunk.title, lang),
       status: chunk.status,
+      source: "guide",
     });
   }
   return citations;
