@@ -14,14 +14,18 @@ real donation, and it stores no personal data.
 
 ```bash
 npm install
-cp .env.example .env.local   # optional: add DEEPSEEK_API_KEY
+cp .env.example .env.local   # optional: add GROQ_API_KEY
 npm run dev                  # http://localhost:3000
 ```
 
-Without `DEEPSEEK_API_KEY`, the app runs fully in **curated mode**: the
+Without `GROQ_API_KEY`, the app runs fully in **curated mode**: the
 assistant and the quiz use the reviewed local knowledge base. With a key, the
-server may call DeepSeek and validates every response before display; any
+server may call Groq and validates every response before display; any
 failure silently falls back to curated content.
+
+The assistant is grounded in [`sos-tunisie-pap-reference.md`](sos-tunisie-pap-reference.md),
+an independent explanatory reference. The live SOS website and authorised SOS
+staff always override it.
 
 ## Scripts
 
@@ -42,9 +46,9 @@ src/app/            App Router: single page + /api/assistant + /api/quiz
 src/components/     Shell, floating dock, welcome modal, tabs, pixel art
 src/lib/pap/        Pure PAP domain: facts, validation, quiz, retrieval, answers
 src/lib/i18n/       Typed FR/AR/EN dictionaries and localization helpers
-src/lib/server/     DeepSeek client, rate limiter, AI output validation
+src/lib/server/     Groq client, PAP reference loader, rate limiter, validation
 tests/              Vitest: i18n, validation, domain, quiz, knowledge, sprites,
-                    palette, server safeguards
+                    palette, reference, assistant validation, Groq, server
 ```
 
 - **No database.** The profile, quiz state and chat live in memory; only the
@@ -60,7 +64,7 @@ See [docs/architecture/overview.md](docs/architecture/overview.md) for details.
 ## Testing and build
 
 ```bash
-npm test          # 91 tests
+npm test          # 107 tests
 npm run lint      # clean
 npm run build     # production build
 ```
@@ -79,8 +83,10 @@ npm run build     # production build
   never as a confirmed current rule.
 - Rate limiting is in-memory, per instance. A shared store is required for
   strict multi-instance limits.
-- DeepSeek integration is implemented and validated, but could not be exercised
+- Groq integration is implemented and validated, but could not be exercised
   end-to-end without an API key in this environment.
+- The PAP reference is an independent guide based on public SOS information, not
+  an official SOS document. It must be reviewed against current SOS material.
 
 ## Documentation
 
