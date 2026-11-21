@@ -617,8 +617,8 @@ svg {
   border-radius: var(--radius-lg);
   border: 1px solid var(--line);
   background: linear-gradient(180deg, var(--pale-blue) 0%, var(--white) 74%);
-  min-height: 280px;
-  aspect-ratio: 16 / 9;
+  min-height: 380px;
+  aspect-ratio: 16 / 10;
   isolation: isolate;
 }
 
@@ -636,7 +636,7 @@ svg {
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  height: 22%;
+  height: 26%;
   background: var(--light-blue);
   border-top: 3px solid var(--navy);
   z-index: 1;
@@ -770,6 +770,24 @@ svg {
   border-radius: 999px;
   padding: 1px 7px;
   font-size: 0.68rem;
+}
+
+.scene-narration {
+  position: absolute;
+  z-index: 7;
+  inset-block-start: 54px;
+  inset-inline: 0;
+  margin-inline: auto;
+  max-width: min(88%, 340px);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  line-height: 1.35;
+  text-align: start;
+  box-shadow: 0 8px 20px -16px rgba(29, 55, 104, 0.6);
 }
 
 .scene-caption {
@@ -1985,8 +2003,40 @@ svg {
   }
 
   .scene {
-    aspect-ratio: 4 / 3;
-    min-height: 300px;
+    aspect-ratio: auto;
+    min-height: 440px;
+  }
+
+  .scene-narration {
+    inset-block-start: 52px;
+    max-width: calc(100% - 24px);
+    font-size: 0.74rem;
+  }
+
+  .sim-grid {
+    gap: 0;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+  }
+
+  .sim-grid > .card {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 0;
+  }
+
+  .sim-grid > .scene-card {
+    padding: 12px 12px 0;
+  }
+
+  .sim-grid > .sim-panel {
+    padding: 16px;
+    gap: 14px;
   }
 
   .scene-badge {
@@ -2082,6 +2132,8 @@ svg {
   .page-head h1 {
     font-size: 1.7rem;
   }
+
+  .scene-narration { font-size: 0.7rem; padding: 6px 10px; }
 }
 
 /* --------------------------------------------------------------- motion */

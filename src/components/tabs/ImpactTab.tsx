@@ -67,7 +67,7 @@ export function ImpactTab() {
       </div>
 
       <div className="sim-grid">
-        <div className="card stack" style={{ gap: 14 }}>
+        <div className="card scene-card stack" style={{ gap: 14 }}>
           <VillageScene stage={stage} />
           <div className="spread">
             <span className="badge badge-cyan">
@@ -79,13 +79,12 @@ export function ImpactTab() {
                 : interpolate(t.impact.nextStage, { count: remaining })}
             </span>
           </div>
+        </div>
+
+        <div className="card sim-panel stack">
           <div className="progress" role="progressbar" aria-label={t.a11y.progress} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(experienceProgress(interactions) * 100)}>
             <span style={{ width: `${experienceProgress(interactions) * 100}%` }} />
           </div>
-          <p className="small muted">{t.impact.stageDescriptions[stage - 1]}</p>
-        </div>
-
-        <div className="card stack">
           <div>
             <h2 className="card-title">{t.impact.amountLabel}</h2>
             <p className="card-body">{t.impact.amountNote}</p>
