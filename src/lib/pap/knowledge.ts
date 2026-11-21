@@ -203,9 +203,9 @@ export const KNOWLEDGE: KnowledgeChunk[] = [
       en: "Donors cannot choose an individually identified child. Children's personal information is protected, and choosing a village does not mean choosing a specific child.",
     },
     keywords: {
-      fr: ["choisir un enfant", "enfant", "choisir", "individuel", "village", "privé", "personnel", "protection"],
-      ar: ["اختيار طفل", "طفل", "اختيار", "فردي", "قرية", "خصوصية", "شخصي", "حماية"],
-      en: ["choose a child", "child", "choose", "individual", "village", "private", "personal", "protection"],
+      fr: ["choisir un enfant", "choisir un village", "informations personnelles", "données personnelles", "vie privée", "protection des enfants", "confidentialité"],
+      ar: ["اختيار طفل", "اختيار قرية", "معلومات شخصية", "بيانات شخصية", "حماية الأطفال", "الخصوصية"],
+      en: ["choose a child", "choose a village", "personal information", "personal data", "child protection", "privacy", "confidentiality"],
     },
   },
   {

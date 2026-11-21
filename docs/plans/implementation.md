@@ -26,13 +26,17 @@ Status at the end of the build session. Update this file when a slice changes.
 - [x] Server safeguards: HTTPS config, input bounds, rate limiter, no raw output.
 - [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server,
   PAP reference, assistant prompt/validation and Groq configuration.
+- [x] Curated retrieval regression: off-topic personal questions are refused
+  instead of being routed to the child-privacy chunk.
+- [x] Runtime smoke test in curated mode: home 200, FR/AR grounded answers,
+  off-topic refusal, quiz with six questions, invalid input 400.
 - [x] Production build, typecheck and full test suite green.
 - [x] README, AGENTS, GLOSSARY, spec, architecture and this plan.
 
 ## Verification
 
 ```text
-npm test       105 passed
+npm test       107 passed
 npm run lint   clean
 npm run build  success (static /, dynamic /api/assistant and /api/quiz)
 ```

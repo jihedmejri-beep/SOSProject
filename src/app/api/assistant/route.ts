@@ -60,7 +60,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       { role: "system", content: buildAssistantSystemPrompt(lang, reference.text) },
       { role: "user", content: trimmed },
     ],
-    { maxTokens: 900, timeoutMs: 25000 },
+    { json: true, maxTokens: 900, timeoutMs: 25000 },
   );
 
   const parsed = parseAssistantAnswer(raw, reference.sections, lang);
