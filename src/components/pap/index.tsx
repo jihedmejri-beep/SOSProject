@@ -100,17 +100,7 @@ export function PapStaticApp() {
     // The original app.js waited for DOMContentLoaded; the DOM is already ready.
     scope.flushReady();
 
-    // The skip link points at the scoped <main> rather than the host page one.
-    const skip = shadow.querySelector(".skip-link");
-    const main = shadow.getElementById("main");
-    const onSkip = (event: Event) => {
-      event.preventDefault();
-      main?.focus();
-    };
-    skip?.addEventListener("click", onSkip);
-
     return () => {
-      skip?.removeEventListener("click", onSkip);
       try {
         (window as any).ScreenStage?.cleanup?.();
       } catch {

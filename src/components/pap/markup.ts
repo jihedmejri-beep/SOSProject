@@ -1,8 +1,7 @@
 /* Body markup translated verbatim from index.html into a string that is
    injected into the component’s scoped DOM. The <script> tags are
    replaced by the imported TSX modules in index.tsx. */
-export const PAP_MARKUP = `<a class="skip-link" href="#main">Aller au contenu principal</a>
-<nav class="nav" id="mainNav" aria-label="Navigation principale"></nav>
+export const PAP_MARKUP = `<nav class="nav" id="mainNav" aria-label="Navigation principale"></nav>
 <main class="main" id="main" tabindex="-1"></main>
 <footer class="footer" id="footer"></footer>
 <div class="toast-root" id="toastRoot" role="status" aria-live="polite"></div>

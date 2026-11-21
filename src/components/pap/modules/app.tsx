@@ -71,8 +71,6 @@ export default function run(doc) {
     document.documentElement.lang = st.lang;
     document.documentElement.dir = st.lang === 'ar' ? 'rtl' : 'ltr';
     document.title = UI.t('app.title') + ' — ' + UI.t('brand.sub');
-    var skip = document.querySelector('.skip-link');
-    if (skip) skip.textContent = UI.t('c.continue');
   }
 
   function bindChrome() {
