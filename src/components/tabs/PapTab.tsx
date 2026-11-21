@@ -1,18 +1,12 @@
 "use client";
 
+import { PapStaticApp } from "@/components/pap";
+
 /**
- * Tab 2 ("pap") of SOSProject displays only the "Projet par défaut" site.
- * The standalone static app lives in /public/projet-par-defaut and is served
- * as-is inside an iframe so its own scripts, styles and state work unchanged.
+ * Tab 2 ("pap") of SOSProject displays the "Projet par défaut" site.
+ * The standalone static app has been ported from its HTML/CSS/JS files to
+ * TSX modules and is rendered directly here — no iframe.
  */
 export function PapTab() {
-  return (
-    <div className="pap-embed">
-      <iframe
-        src="/projet-par-defaut/index.html"
-        title="Projet par défaut — parcours PAP"
-        className="pap-embed__frame"
-      />
-    </div>
-  );
+  return <PapStaticApp />;
 }
