@@ -13,6 +13,7 @@ import type { AnswerMode, QuizResponse } from "@/lib/api/types";
 import { interpolate } from "@/lib/i18n";
 import {
   QUIZ_LENGTH,
+  appendSeenPrompt,
   buildQuiz,
   scoreQuiz,
   type QuizQuestion,
@@ -30,6 +31,7 @@ export function QuizTab() {
   const [answers, setAnswers] = useState<Record<string, number>>({});
   const [mode, setMode] = useState<AnswerMode>("curated");
   const [loadError, setLoadError] = useState(false);
+  const [seenPrompts, setSeenPrompts] = useState<string[]>([]);
 
   const start = useCallback(async () => {
     setPhase("loading");
@@ -41,7 +43,7 @@ export function QuizTab() {
       const response = await fetch("/api/quiz", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lang }),
+        body: JSON.stringify({ lang, seen: seenPrompts.slice(-12) }),
       });
       if (response.ok) {
         const data = (await response.json()) as QuizResponse;
@@ -57,6 +59,7 @@ export function QuizTab() {
         ) {
           loaded = data.questions;
           nextMode = data.mode === "ai" ? "ai" : "curated";
+          setSeenPrompts(loaded.reduce(appendSeenPrompt, seenPrompts));
         }
       }
     } catch {
@@ -76,7 +79,7 @@ export function QuizTab() {
     setSubmitted(false);
     setAnswers({});
     setPhase("playing");
-  }, [lang]);
+  }, [lang, seenPrompts]);
 
   const question = questions[index];
   const total = questions.length || QUIZ_LENGTH;

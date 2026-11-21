@@ -50,7 +50,8 @@ second linter; Vitest and `tsc` are the established tools.
 
 ## AI safeguards
 
-- Groq is called only server-side through `src/lib/server/groq.ts`.
+- Groq is called only server-side through the shared client in
+  `src/lib/server/groq.ts`.
 - The assistant's factual source is `sos-tunisie-pap-reference.md`, loaded by
   `src/lib/server/papReference.ts`. Keep the file at the project root; Next
   traces it for `/api/assistant`. The reference is independent, not official.

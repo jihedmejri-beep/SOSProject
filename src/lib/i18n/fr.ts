@@ -525,14 +525,14 @@ export const fr = {
     kicker: "Tab 3 — Quiz PAP",
     title: "Testez votre compréhension du PAP",
     subtitle:
-      "Six questions issues d'une banque vérifiée, avec une correction immédiate et la page source de chaque réponse.",
+      "Cinq questions issues du guide PAP de référence, avec une correction immédiate et la page source de chaque réponse.",
     gateTitle: "Le quiz est réservé aux profils de démonstration",
     gateBody:
       "Le quiz est réservé aux visiteurs disposant d'un profil de démonstration.",
     gateCta: "Créer mon profil",
     startTitle: "Prêt à vérifier vos connaissances ?",
     startBody:
-      "2 questions faciles, 2 moyennes et 2 difficiles. Vous pouvez recommencer autant de fois que vous le souhaitez.",
+      "2 questions faciles, 2 moyennes et 1 difficile. Vous pouvez recommencer autant de fois que vous le souhaitez.",
     startCta: "Commencer le quiz",
     level: "Niveau",
     levels: { easy: "Facile", medium: "Moyen", hard: "Difficile" },
