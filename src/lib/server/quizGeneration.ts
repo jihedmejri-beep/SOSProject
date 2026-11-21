@@ -1,6 +1,12 @@
 import type { Lang } from "@/lib/i18n/types";
 import type { Difficulty, QuizQuestion } from "@/lib/pap/quiz";
-import { QUIZ_DISTRIBUTION, QUIZ_LENGTH, questionFingerprint, shuffle } from "@/lib/pap/quiz";
+import {
+  QUIZ_DISTRIBUTION,
+  QUIZ_LENGTH,
+  questionFingerprint,
+  shuffle,
+  shuffleQuestionOptions,
+} from "@/lib/pap/quiz";
 import type { QuizReferenceFact } from "@/lib/pap/quizReference";
 import { LANGS } from "@/lib/i18n/types";
 
@@ -167,7 +173,9 @@ export function selectBalancedQuestions(
     if (ofLevel.length < needed) return null;
     picked.push(...ofLevel.slice(0, needed));
   }
-  return shuffle(picked, rng).slice(0, QUIZ_LENGTH);
+  return shuffle(picked, rng)
+    .slice(0, QUIZ_LENGTH)
+    .map((question) => shuffleQuestionOptions(question, rng));
 }
 
 function hash(value: string): number {

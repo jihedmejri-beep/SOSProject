@@ -1754,7 +1754,9 @@ svg {
   position: fixed;
   z-index: 100;
   inset-block-end: max(14px, env(safe-area-inset-bottom));
-  inset-inline-start: 50%;
+  /* Physical `left` keeps the translateX centring correct in both LTR and RTL. */
+  left: 50%;
+  right: auto;
   transform: translateX(-50%);
   width: min(560px, calc(100vw - 20px));
   background: var(--white);

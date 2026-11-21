@@ -11,6 +11,7 @@ import {
   questionsByDifficulty,
   scoreQuiz,
   shuffle,
+  shuffleQuestionOptions,
 } from "@/lib/pap/quiz";
 import { QUIZ_REFERENCE_FACTS } from "@/lib/pap/quizReference";
 
@@ -93,6 +94,24 @@ describe("quiz building and scoring", () => {
       expect(quiz.filter((question) => question.difficulty === level)).toHaveLength(
         QUIZ_DISTRIBUTION[level],
       );
+    }
+  });
+
+  it("shuffles option order while preserving the correct answer", () => {
+    const question = QUIZ_QUESTIONS[0]!;
+    const answer = question.options[question.correct];
+    const moved = shuffleQuestionOptions(question, () => 0);
+
+    expect(new Set(moved.options)).toEqual(new Set(question.options));
+    expect(moved.options[moved.correct]).toBe(answer);
+    expect(moved.correct).not.toBe(0);
+    expect(question.correct).toBe(0);
+  });
+
+  it("does not leave the correct answer in the first position", () => {
+    const quiz = buildQuiz(() => 0);
+    for (const question of quiz) {
+      expect(question.correct).not.toBe(0);
     }
   });
 

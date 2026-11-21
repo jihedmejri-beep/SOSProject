@@ -227,6 +227,22 @@ export function shuffle<T>(items: T[], rng: () => number = Math.random): T[] {
   return copy;
 }
 
+/**
+ * Returns a copy with the answer options permuted and `correct` remapped to
+ * match, so the right answer is not tied to a fixed position in either bank.
+ */
+export function shuffleQuestionOptions<T extends QuizQuestion>(
+  question: T,
+  rng: () => number = Math.random,
+): T {
+  const order = shuffle(question.options.map((_, index) => index), rng);
+  const options = order
+    .map((index) => question.options[index])
+    .filter((option): option is Localized => option !== undefined);
+
+  return { ...question, options, correct: order.indexOf(question.correct) };
+}
+
 export function buildQuiz(
   rng: () => number = Math.random,
   pool: QuizQuestion[] = QUIZ_QUESTIONS,
@@ -237,7 +253,9 @@ export function buildQuiz(
       rng,
     ).slice(0, QUIZ_DISTRIBUTION[level]);
 
-  return shuffle([...byLevel("easy"), ...byLevel("medium"), ...byLevel("hard")], rng);
+  return shuffle([...byLevel("easy"), ...byLevel("medium"), ...byLevel("hard")], rng).map(
+    (question) => shuffleQuestionOptions(question, rng),
+  );
 }
 
 export function scoreQuiz(

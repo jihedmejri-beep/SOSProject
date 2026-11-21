@@ -189,6 +189,24 @@ describe("generated quiz selection", () => {
     }
   });
 
+  it("moves the correct option away from the model's index after selection", () => {
+    const generated = [
+      generatedQuestion("e1", "easy"),
+      generatedQuestion("e2", "easy"),
+      generatedQuestion("m1", "medium"),
+      generatedQuestion("m2", "medium"),
+      generatedQuestion("h1", "hard"),
+    ];
+    const selected = selectBalancedQuestions(generated, () => 0);
+    expect(selected).toHaveLength(QUIZ_LENGTH);
+    for (const question of selected ?? []) {
+      const original = generated.find((item) => item.id === question.id);
+      expect(question.correct).not.toBe(0);
+      expect(question.options[question.correct]).toBe(original?.options[original.correct]);
+      expect(new Set(question.options)).toEqual(new Set(original?.options));
+    }
+  });
+
   it("rejects a generation that lacks a difficulty", () => {
     const generated = [
       generatedQuestion("e1", "easy"),
