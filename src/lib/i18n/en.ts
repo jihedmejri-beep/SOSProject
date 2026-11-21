@@ -129,6 +129,103 @@ export const en: Dictionary = {
     reducedMotion: "Animations are reduced according to your device preferences.",
     addAnnounce: "Symbolic contribution added. Village stage {stage}.",
   },
+  journey: {
+    kicker: "10-stage PAP journey",
+    title: "The PAP sponsor's journey",
+    subtitle: "Explore the ten stages of your commitment, from the form to the end of the debit cycle.",
+    play: "Play the animated journey",
+    pause: "Pause the journey",
+    replay: "Replay the journey",
+    map: "Journey map",
+    open: "Open this stage",
+    close: "Back to the map",
+    previous: "Previous stage",
+    next: "Next stage",
+    what: "What happens",
+    actors: "Who is involved",
+    sent: "Sent",
+    received: "Received",
+    accuracy: "Information accuracy",
+    fact: "Published PAP fact",
+    simulation: "Simulation feature",
+    done: "Completed",
+    active: "In progress",
+    upcoming: "Upcoming",
+    progress: "Completed stages",
+    demoNote: "Educational simulation: no real banking data, payment or message is created.",
+    stages: [
+      {
+        title: "Filling in the PAP form",
+        sub: "The donor picks an amount, a village and a first debit month.",
+        what: "The donor fills in the permanent automatic debit (PAP) form: identity, contact details, monthly amount, supported village, bank details and first debit month.",
+        who: "The donor (individual or company) fills in the form. No agent checks it at this stage.",
+        note: "Choosing the amount, village and first month is part of the published PAP procedure. The fields here are a mock-up: never enter real bank details.",
+      },
+      {
+        title: "Donor confirmation message",
+        sub: "The donor receives a simulated notification and confirms or cancels the commitment.",
+        what: "After the form is sent, an SMS/WhatsApp-style notification asks the donor to confirm the commitment. Two answers are offered: confirm or cancel.",
+        who: "The donor and the donor relations service (simulation).",
+        note: "This confirmation message and two-button choice are a proposed simulation feature, not a verified SOS procedure.",
+      },
+      {
+        title: "Administrative verification",
+        sub: "Six checkpoints run automatically to explain how the file would be processed.",
+        what: "An automatic sequence presents six checkpoints: form received, personal information, amount, fictional bank details, simulated signature and validation.",
+        who: "The SOS Villages d'Enfants administrative service (illustration).",
+        note: "Demonstration sequence: each checkpoint is explained, but no real check is performed.",
+      },
+      {
+        title: "Automatic debit activation",
+        sub: "The fictional bank account is linked to SOS and the monthly debit on the 25th becomes active.",
+        what: "The validated file moves to activation: a fictional link is created between the donor's bank and SOS Villages d'Enfants. The recurring debit is scheduled for the 25th of each month.",
+        who: "The donor, their fictional bank and SOS Villages d'Enfants.",
+        note: "The debit on the 25th of each month is part of the published PAP procedure; the activation shown here is a simulation.",
+      },
+      {
+        title: "First debit",
+        sub: "On the 25th, a fictional payment token reaches the SOS donation account.",
+        what: "The first debit is animated: the 25th is highlighted, the amount leaves the donor's fictional account and a transaction number is generated.",
+        who: "The fictional bank, the donor and the SOS donation account.",
+        note: "No real payment is made: the calendar, the bank and the transaction number are fictional.",
+      },
+      {
+        title: "Monthly donor follow-up",
+        sub: "Five successful months, one after another, then the months to come.",
+        what: "The donor reviews the debit history: January to May succeeded, later months are pending. Each month has a clear status.",
+        who: "The donor browses their space. The system displays simulated statuses.",
+        note: "Regular donations let SOS plan and fund its activities over time.",
+      },
+      {
+        title: "Handling payment incidents",
+        sub: "The 25th fails for lack of funds: a second attempt is scheduled for the 5th of the next month.",
+        what: "The donor simulates a debit that cannot go through on the 25th (insufficient funds). A second attempt is scheduled for the 5th of the following month. Uncollected amounts are not automatically accumulated.",
+        who: "The donor and the fictional bank; SOS is informed of the result.",
+        note: "The second attempt on the 5th of the next month and the absence of automatic accumulation are part of the published PAP description.",
+      },
+      {
+        title: "Changing the sponsorship",
+        sub: "Change the amount, account, contact details or village through four simple requests.",
+        what: "The donor can request a change: monthly amount, bank account, contact details or supported village. Each request is recorded in the simulation.",
+        who: "The donor and the SOS donor service (simulated).",
+        note: "The possibility to request a change is part of the published PAP description; the form and confirmation are simulated.",
+      },
+      {
+        title: "Temporary suspension",
+        sub: "Pause the debit, then reactivate it whenever you want.",
+        what: "The donor can temporarily suspend the debit. The status changes from “Active” to “Suspended”, then can return to “Active”.",
+        who: "The donor and the SOS donor service (simulated).",
+        note: "Temporary suspension is part of the published PAP description. The animation and messages are simulated.",
+      },
+      {
+        title: "Final termination",
+        sub: "End the commitment: a clear, confirmed and summarised decision.",
+        what: "The donor ends their PAP commitment. The recurring debit stops, the status becomes “PAP terminated” and a summary of the simulated history is displayed.",
+        who: "The donor and the SOS donor service (simulated).",
+        note: "Termination is part of the published PAP description. The reason, animations and summary are simulated.",
+      },
+    ],
+  },
   pap: {
     kicker: "Tab 2 — Understanding PAP",
     title: "Regular support, simply.",
@@ -139,7 +236,7 @@ export const en: Dictionary = {
     definitionBody:
       "PAP stands for Prélèvement Automatique Permanent (Permanent Automatic Debit). It is a voluntary contribution automatically debited every month from a Tunisian current account, according to the amount chosen and authorised by the donor.",
     journeyKicker: "Donor journey",
-    journeyTitle: "Six steps, guided with you",
+    journeyTitle: "Four steps, guided with you",
     journeyHint: "Move at your own pace. This demonstration creates no real mandate.",
     stepLabel: "Step {current} of {total}",
     steps: [
@@ -149,29 +246,19 @@ export const en: Dictionary = {
           "SOS Children's Villages supports children and families. Recurring support makes long-term planning possible instead of relying on one-off gestures.",
       },
       {
-        title: "Choose",
+        title: "Choose and authorise",
         body:
-          "You freely choose the monthly amount. No amount is imposed by this demonstration.",
+          "You freely choose the monthly amount. The real procedure requires your details, the amount in figures and words, a RIB, the first debit month, an authorisation and a signature. A Tunisian current account is required.",
       },
       {
-        title: "Understand the authorisation",
+        title: "Confirm",
         body:
-          "The real PAP procedure requires the donor's information, the amount in figures and words, a RIB and bank details, the first debit month, a personal authorisation and a signature. A Tunisian current account is required.",
+          "Here is a simulated confirmation. The message is entirely fictional: no real SMS is sent and no banking operation is performed.",
       },
       {
-        title: "Simulated SMS experience",
+        title: "Every month",
         body:
-          "This is what a confirmation may look like. The message is entirely fictional: no real SMS is sent and no banking operation is performed.",
-      },
-      {
-        title: "The monthly debit",
-        body:
-          "The normal debit takes place on the 25th. If the account has insufficient funds, a second attempt is made on the 5th of the following month. Failed debits are not cumulative.",
-      },
-      {
-        title: "The choice remains with the donor",
-        body:
-          "The donor can contact SOS to change the amount, temporarily suspend or stop the contribution. Support remains voluntary.",
+          "The normal debit takes place on the 25th. If funds are insufficient, a second attempt is made on the 5th of the following month, without accumulating failures. You can contact SOS to change, pause or stop your support.",
       },
     ],
     amountTitle: "Choose a monthly amount (simulation)",
@@ -180,7 +267,7 @@ export const en: Dictionary = {
     smsTitle: "Simulated notification",
     smsFrom: "SOS PAP — simulation",
     smsBody:
-      "PAP SIMULATION - Your educational choice: {amount} DT per month. No banking operation has been performed.",
+      "PAP SIMULATION - Your educational choice: {amount} per month. No banking operation has been performed.",
     smsConfirm: "Confirm my simulation",
     smsConfirmedTitle: "Simulation confirmed",
     smsConfirmedBody:
