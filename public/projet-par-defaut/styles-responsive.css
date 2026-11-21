@@ -26,9 +26,7 @@
 }
 
 @media (max-width: 1024px) {
-  .masthead__inner { padding: 12px 16px; gap: 12px; }
   .main { padding: 24px 16px 46px; }
-  .progress-mini { display: none; }
   .board { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 32px 10px; padding: 28px 12px 42px; }
   .level { padding: 7px 7px 8px; }
   .level__state { font-size: 0.5rem; padding: 1px 4px; }
@@ -78,10 +76,6 @@
 }
 
 @media (max-width: 620px) {
-  .masthead__inner { justify-content: center; }
-  .masthead__tools { width: 100%; justify-content: center; gap: 8px; }
-  .brand { width: 100%; justify-content: center; }
-  .brand__title { font-size: 0.62rem; }
   .nav__inner { padding: 7px 10px; gap: 4px; }
   .nav__btn { padding: 7px 8px; font-size: 0.74rem; }
   .nav__stage-title { display: none; }
@@ -200,7 +194,7 @@
 
 /* ---------- print ---------- */
 @media print {
-  .masthead, .nav, .footer, .toast-root, .stage-actions, .map-actions { display: none !important; }
+  .nav, .footer, .toast-root, .stage-actions, .map-actions { display: none !important; }
   body { background: #fff; }
   .panel, .level { box-shadow: none; }
 }

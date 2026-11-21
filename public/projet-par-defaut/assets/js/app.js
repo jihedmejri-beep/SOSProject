@@ -1,5 +1,5 @@
 /* ============================================================
-   App shell: header, navigation, routing, chrome updates
+   App shell: navigation, routing, chrome updates
    ============================================================ */
 (function () {
   'use strict';
@@ -22,27 +22,20 @@
       (isActive ? ' aria-current="page"' : '') + '>' + label + '</button>';
   }
 
-  function header() {
+  function donorSwitch() {
     var st = Store.state;
-    var done = Store.progress();
-    return '' +
-      '<div class="masthead__inner">' +
-      '<div class="masthead__tools">' +
-      '<div class="seg seg--donor" role="group" aria-label="' + UI.esc(UI.t('u.donorType')) + '">' +
+    return '<div class="seg seg--donor" role="group" aria-label="' + UI.esc(UI.t('u.donorType')) + '">' +
       '<button type="button" class="seg__btn' + (st.donorType === 'individual' ? ' is-on' : '') + '" data-donor="individual" aria-pressed="' + (st.donorType === 'individual') + '">' +
       '<span class="seg__art">' + window.Art.avatar('individual') + '</span><span class="seg__label">' + UI.esc(UI.t('u.individual')) + '</span></button>' +
       '<button type="button" class="seg__btn' + (st.donorType === 'company' ? ' is-on' : '') + '" data-donor="company" aria-pressed="' + (st.donorType === 'company') + '">' +
       '<span class="seg__art">' + window.Art.avatar('company') + '</span><span class="seg__label">' + UI.esc(UI.t('u.company')) + '</span></button>' +
-      '</div>' +
-      '<div class="progress-mini" title="' + UI.esc(UI.t('u.progressFull', { done: done })) + '">' +
-      '<span class="progress-mini__label">' + UI.esc(UI.t('u.step')) + ' ' + Math.min(done + 1, 10) + ' / 10</span>' +
-      '<span class="progress-mini__bar"><span style="width:' + (done / 10 * 100) + '%"></span></span>' +
-      '</div>' +
-      '</div></div>';
+      '</div>';
   }
 
   function nav() {
     var parts = [
+      donorSwitch(),
+      '<span class="nav__sep" aria-hidden="true"></span>',
       navButton('map', UI.icon('map', '', 16) + '<span>' + UI.esc(UI.t('nav.map')) + '</span>')
     ];
     return '<div class="nav__inner">' + parts.join('') + '</div>' +
@@ -61,9 +54,6 @@
 
   function updateChrome() {
     var st = Store.state;
-    var done = Store.progress();
-    var masthead = document.getElementById('masthead');
-    if (masthead) masthead.innerHTML = header();
     var navEl = document.getElementById('mainNav');
     if (navEl) navEl.innerHTML = nav();
     var footEl = document.getElementById('footer');
@@ -77,13 +67,10 @@
   }
 
   function bindChrome() {
-    document.querySelectorAll('#masthead [data-donor]').forEach(function (b) {
+    document.querySelectorAll('#mainNav [data-donor]').forEach(function (b) {
       b.addEventListener('click', function () {
         setDonor(b.getAttribute('data-donor'));
       });
-    });
-    document.querySelectorAll('#masthead [data-lang]').forEach(function (b) {
-      b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
     });
     document.querySelectorAll('#mainNav [data-nav]').forEach(function (b) {
       b.addEventListener('click', function () {
