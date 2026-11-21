@@ -6,6 +6,7 @@ export type CitationDto = {
   page: number;
   title: string;
   status: "official" | "historical" | "educational";
+  source?: "guide" | "reference";
 };
 
 export type AssistantResponse = {

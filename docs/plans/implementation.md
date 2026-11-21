@@ -20,17 +20,19 @@ Status at the end of the build session. Update this file when a slice changes.
 - [x] Quiz tab: six balanced questions, feedback, explanations, restart.
 - [x] Assistant tab: chat, suggestions, citations, status badges, retry, clear.
 - [x] Donate tab: two official routes, comparison, official links.
-- [x] `/api/assistant`: retrieval, curated fallback, validated DeepSeek path.
+- [x] `/api/assistant`: reference-grounded answer, curated fallback, validated
+  Groq path with Arabic-friendly prompting.
 - [x] `/api/quiz`: curated fallback, validated balanced trilingual generation.
 - [x] Server safeguards: HTTPS config, input bounds, rate limiter, no raw output.
-- [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server.
+- [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server,
+  PAP reference, assistant prompt/validation and Groq configuration.
 - [x] Production build, typecheck and full test suite green.
 - [x] README, AGENTS, GLOSSARY, spec, architecture and this plan.
 
 ## Verification
 
 ```text
-npm test       91 passed
+npm test       105 passed
 npm run lint   clean
 npm run build  success (static /, dynamic /api/assistant and /api/quiz)
 ```
@@ -41,7 +43,7 @@ npm run build  success (static /, dynamic /api/assistant and /api/quiz)
   mark in `Brand`.
 - [ ] Supply the official brand font and update the type scale in `globals.css`.
 - [ ] Review every knowledge chunk against the final PAP guide PDF.
-- [ ] Run the assistant and quiz against a real `DEEPSEEK_API_KEY` and record the
+- [ ] Run the assistant and quiz against a real `GROQ_API_KEY` and record the
   result before claiming AI mode in production.
 - [ ] Decide whether a shared rate-limit store is needed for the deployment.
 - [ ] Confirm the current minimum contribution wording with SOS before publishing
