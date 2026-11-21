@@ -1,7 +1,35 @@
 import { describe, expect, it } from "vitest";
 import { STAGES } from "@/lib/pap/domain";
 import { HERO_SPRITES } from "@/components/pixel/storySprites";
-import { SCENE_LAYERS, layersForStage } from "@/components/pixel/sceneLayers";
+import {
+  CHARACTER_WIDTH_ADULT,
+  CHARACTER_WIDTH_CHILD,
+  CHARACTER_WIDTH_SCHOOL,
+  SCENE_LAYERS,
+  layersForStage,
+} from "@/components/pixel/sceneLayers";
+
+type Tier = "child" | "school" | "adult";
+
+const HERO_TIER: Record<(typeof STAGES)[number], Tier> = {
+  1: "child",
+  2: "child",
+  3: "child",
+  4: "school",
+  5: "school",
+  6: "adult",
+  7: "adult",
+};
+
+const CAST_TIER: Record<string, Tier> = {
+  "sibling-a": "child",
+  "sibling-b": "child",
+  "child-friend": "child",
+  mother: "adult",
+  director: "adult",
+  staff: "adult",
+  "staff-far": "adult",
+};
 
 function ids(stage: (typeof STAGES)[number]): string[] {
   return SCENE_LAYERS[stage].map((layer) => layer.id);
@@ -70,6 +98,26 @@ describe("scene layers", () => {
       if (first === undefined) continue;
       for (const stage of STAGES) {
         if (stage >= first) expect(ids(stage), `${id} at stage ${stage}`).toContain(id);
+      }
+    }
+  });
+
+  it("sizes children small, school-age children bigger, and adults and high-schoolers biggest", () => {
+    const widths = [CHARACTER_WIDTH_CHILD, CHARACTER_WIDTH_SCHOOL, CHARACTER_WIDTH_ADULT];
+    for (const width of widths) expect(width).toMatch(/^clamp\(/);
+    const minimums = widths.map((width) => Number(width.match(/clamp\((\d+)px/)?.[1]));
+    expect(minimums[0]!).toBeLessThan(minimums[1]!);
+    expect(minimums[1]!).toBeLessThan(minimums[2]!);
+    const byTier: Record<Tier, string> = {
+      child: CHARACTER_WIDTH_CHILD,
+      school: CHARACTER_WIDTH_SCHOOL,
+      adult: CHARACTER_WIDTH_ADULT,
+    };
+    for (const stage of STAGES) {
+      for (const layer of SCENE_LAYERS[stage]) {
+        const tier = layer.id === "hero" ? HERO_TIER[stage] : CAST_TIER[layer.id];
+        if (tier === undefined) continue;
+        expect(layer.width, `${layer.id} at stage ${stage}`).toBe(byTier[tier]);
       }
     }
   });
