@@ -37,7 +37,7 @@ Status at the end of the build session. Update this file when a slice changes.
 ## Verification
 
 ```text
-npm test       130 passed
+npm test       138 passed
 npm run lint   clean
 npm run build  success (static /, dynamic /api/assistant and /api/quiz)
 ```
