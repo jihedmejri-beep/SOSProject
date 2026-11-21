@@ -28,23 +28,12 @@
     var unread = Store.unreadCount();
     return '' +
       '<div class="masthead__inner">' +
-      '<a class="brand" href="#main" data-nav="map">' +
-      '<span class="brand__mark">' + window.Art.brand() + '</span>' +
-      '<span class="brand__text"><span class="brand__title">' + UI.esc(UI.t('brand.title')) + '</span>' +
-      '<span class="brand__sub">' + UI.esc(UI.t('brand.sub')) + '</span></span>' +
-      '</a>' +
       '<div class="masthead__tools">' +
       '<div class="seg seg--donor" role="group" aria-label="' + UI.esc(UI.t('u.donorType')) + '">' +
       '<button type="button" class="seg__btn' + (st.donorType === 'individual' ? ' is-on' : '') + '" data-donor="individual" aria-pressed="' + (st.donorType === 'individual') + '">' +
       '<span class="seg__art">' + window.Art.avatar('individual') + '</span><span class="seg__label">' + UI.esc(UI.t('u.individual')) + '</span></button>' +
       '<button type="button" class="seg__btn' + (st.donorType === 'company' ? ' is-on' : '') + '" data-donor="company" aria-pressed="' + (st.donorType === 'company') + '">' +
       '<span class="seg__art">' + window.Art.avatar('company') + '</span><span class="seg__label">' + UI.esc(UI.t('u.company')) + '</span></button>' +
-      '</div>' +
-      '<div class="lang" role="group" aria-label="' + UI.esc(UI.t('u.lang')) + '">' +
-      ['fr', 'en', 'ar'].map(function (l) {
-        return '<button type="button" class="lang__btn' + (st.lang === l ? ' is-on' : '') + '" data-lang="' + l + '"' +
-          ' aria-pressed="' + (st.lang === l) + '" lang="' + l + '">' + l.toUpperCase() + '</button>';
-      }).join('') +
       '</div>' +
       '<button type="button" class="icon-btn bell" data-nav="messages" aria-label="' + UI.esc(UI.t('u.messages')) + '">' +
       UI.icon('bell', '', 20) + (unread ? '<span class="bell__badge">' + unread + '</span>' : '') + '</button>' +
@@ -56,24 +45,11 @@
   }
 
   function nav() {
-    var st = Store.state;
     var parts = [
       navButton('map', UI.icon('map', '', 16) + '<span>' + UI.esc(UI.t('nav.map')) + '</span>'),
-      navButton('home', UI.icon('home', '', 16) + '<span>' + UI.esc(UI.t('nav.home')) + '</span>'),
       navButton('messages', UI.icon('bell', '', 16) + '<span>' + UI.esc(UI.t('nav.messages')) + '</span>' +
-        (Store.unreadCount() ? '<em class="nav__badge">' + Store.unreadCount() + '</em>' : '')),
-      navButton('admin', UI.icon('dashboard', '', 16) + '<span>' + UI.esc(UI.t('nav.admin')) + '</span>'),
-      '<span class="nav__sep" aria-hidden="true"></span>'
+        (Store.unreadCount() ? '<em class="nav__badge">' + Store.unreadCount() + '</em>' : ''))
     ];
-    window.PAPData.stages.forEach(function (s) {
-      var isStage = current.name === 'stage' && current.n === s.n;
-      parts.push('<button type="button" class="nav__btn nav__btn--stage' + (isStage ? ' is-active' : '') + '"' +
-        ' data-nav="stage" data-nav-n="' + s.n + '"' + (isStage ? ' aria-current="page"' : '') +
-        ' title="' + UI.esc(UI.t(s.titleKey)) + '">' +
-        '<span class="nav__num">' + s.n + '</span><span class="nav__stage-title">' + UI.esc(UI.t(s.titleKey)) + '</span>' +
-        (Store.isDone(s.n) ? '<span class="nav__done" aria-hidden="true">' + UI.icon('check', '', 11) + '</span>' : '') +
-        '</button>');
-    });
     return '<div class="nav__inner">' + parts.join('') + '</div>' +
       '<span class="sr-only">' + UI.esc(UI.t('u.progressFull', { done: Store.progress() })) + '</span>';
   }

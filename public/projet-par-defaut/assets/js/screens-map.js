@@ -48,9 +48,7 @@
 
   function render() {
     var st = Store.state;
-    var done = Store.progress();
     var level = st.selectedLevel || Store.currentLevel();
-    var pct = Math.round((done / 10) * 100);
     return '' +
       '<section class="screen screen--map" aria-labelledby="mapTitle">' +
       '<div class="map-head">' +
@@ -65,16 +63,6 @@
       '<button type="button" class="btn btn--ghost" id="replayJourney" title="' + UI.esc(UI.t('map.replay')) + '">' +
       UI.icon('rotate', '', 18) + '<span>' + UI.esc(UI.t('map.replay')) + '</span></button>' +
       '</div>' +
-      '</div>' +
-
-      '<div class="map-progress">' +
-      '<div class="map-progress__top">' +
-      '<span class="map-progress__label">' + UI.icon('flag', '', 16) + UI.t('map.progress') + '</span>' +
-      '<strong data-progress-text>' + done + ' / 10</strong>' +
-      '</div>' +
-      '<div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="' + done + '"' +
-      ' aria-label="' + UI.esc(UI.t('map.progress')) + '"><span data-progress-bar style="width:' + pct + '%"></span></div>' +
-      '<p class="map-progress__hint">' + UI.icon('sparkles', '', 14) + UI.esc(UI.t('map.playHint')) + '</p>' +
       '</div>' +
 
       '<div class="board-wrap">' +
