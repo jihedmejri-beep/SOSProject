@@ -127,6 +127,103 @@ export const fr = {
     reducedMotion: "Les animations sont réduites selon les préférences de votre appareil.",
     addAnnounce: "Contribution symbolique ajoutée. Étape {stage} du village.",
   },
+  journey: {
+    kicker: "Parcours PAP en 10 étapes",
+    title: "Le parcours du parrain PAP",
+    subtitle: "Découvrez les dix étapes de votre engagement, du formulaire à la fin du prélèvement.",
+    play: "Voir le parcours animé",
+    pause: "Mettre en pause",
+    replay: "Rejouer le parcours",
+    map: "Carte du parcours",
+    open: "Ouvrir cette étape",
+    close: "Revenir à la carte",
+    previous: "Étape précédente",
+    next: "Étape suivante",
+    what: "Ce qui se passe",
+    actors: "Qui est impliqué",
+    sent: "Envoyé",
+    received: "Reçu",
+    accuracy: "Précision de l'information",
+    fact: "Fait PAP publié",
+    simulation: "Fonction de simulation",
+    done: "Terminée",
+    active: "En cours",
+    upcoming: "À venir",
+    progress: "Étapes terminées",
+    demoNote: "Simulation pédagogique : aucune donnée bancaire réelle, aucun paiement et aucun message n'est créé.",
+    stages: [
+      {
+        title: "Remplissage du formulaire PAP",
+        sub: "Le donateur choisit son montant, son village et son premier mois de prélèvement.",
+        what: "Le donateur remplit le formulaire d'adhésion au prélèvement automatique permanent (PAP) : identité, coordonnées, montant mensuel, village à soutenir, coordonnées bancaires et premier mois de prélèvement.",
+        who: "Le donateur (personne physique ou société) remplit le formulaire. Aucun agent ne le contrôle à ce stade.",
+        note: "Le choix du montant, du village et du premier mois fait partie de la procédure PAP publiée. Les champs affichés ici sont une maquette : n'entrez jamais de vraies données bancaires.",
+      },
+      {
+        title: "Message de confirmation du donateur",
+        sub: "Le donateur reçoit une notification simulée et confirme ou annule son engagement.",
+        what: "Après l'envoi du formulaire, une notification de style SMS/WhatsApp invite le donateur à confirmer son engagement. Deux réponses sont proposées : confirmer ou annuler.",
+        who: "Le donateur et le service des relations donateurs (simulation).",
+        note: "Ce message de confirmation et le choix à deux boutons sont une fonction de simulation proposée, non une procédure SOS vérifiée.",
+      },
+      {
+        title: "Vérification administrative",
+        sub: "Six points de contrôle défilent automatiquement pour expliquer le traitement du dossier.",
+        what: "Une séquence automatique présente six points de contrôle : réception du formulaire, informations personnelles, montant, RIB fictif, signature simulée et validation.",
+        who: "Le service administratif de SOS Villages d'Enfants (illustration).",
+        note: "Séquence de démonstration : chaque point est expliqué, mais aucun contrôle réel n'est effectué.",
+      },
+      {
+        title: "Activation du prélèvement automatique",
+        sub: "Le compte bancaire fictif est relié à SOS et le prélèvement du 25 devient actif.",
+        what: "Le dossier validé passe à l'activation : un lien fictif est établi entre la banque du donateur et SOS Villages d'Enfants. Le prélèvement récurrent est programmé le 25 de chaque mois.",
+        who: "Le donateur, sa banque fictive et SOS Villages d'Enfants.",
+        note: "Le prélèvement le 25 de chaque mois fait partie de la procédure PAP publiée ; l'activation affichée est une simulation.",
+      },
+      {
+        title: "Premier prélèvement",
+        sub: "Le 25, un jeton de paiement fictif rejoint le compte de don de SOS.",
+        what: "Le premier prélèvement est animé : le 25 est mis en évidence, le montant quitte le compte fictif du donateur et un numéro de transaction est généré.",
+        who: "La banque fictive, le donateur et le compte de don SOS.",
+        note: "Aucun paiement réel n'est effectué : le calendrier, la banque et le numéro de transaction sont fictifs.",
+      },
+      {
+        title: "Suivi mensuel du donateur",
+        sub: "Cinq mois de dons réussis, mois par mois, puis les suivants à venir.",
+        what: "Le donateur consulte l'historique de ses prélèvements : janvier à mai sont réussis, les mois suivants sont en attente. Chaque mois possède un statut clair.",
+        who: "Le donateur consulte son espace. Le système affiche les statuts simulés.",
+        note: "Les dons réguliers permettent à SOS de planifier et de financer ses activités dans la durée.",
+      },
+      {
+        title: "Gestion des incidents de paiement",
+        sub: "Le 25 échoue faute de provision : une seconde tentative est prévue le 5 du mois suivant.",
+        what: "Le donateur simule un prélèvement impossible le 25 (solde insuffisant). Une seconde tentative est programmée le 5 du mois suivant. Les montants non prélevés ne sont pas cumulés automatiquement.",
+        who: "Le donateur et la banque fictive ; SOS est informé du résultat.",
+        note: "La seconde tentative le 5 du mois suivant et l'absence de cumul automatique font partie du descriptif PAP publié.",
+      },
+      {
+        title: "Modification du parrainage",
+        sub: "Changer le montant, le compte, les coordonnées ou le village, en quatre demandes simples.",
+        what: "Le donateur peut demander une modification : montant mensuel, compte bancaire, coordonnées ou village soutenu. Chaque demande est enregistrée dans la simulation.",
+        who: "Le donateur et le service donateur de SOS (simulé).",
+        note: "La possibilité de demander une modification fait partie du descriptif PAP publié ; le formulaire et la confirmation sont simulés.",
+      },
+      {
+        title: "Suspension temporaire",
+        sub: "Mettre le prélèvement en pause, puis le réactiver quand vous le souhaitez.",
+        what: "Le donateur peut suspendre temporairement son prélèvement. Le statut passe de « Actif » à « Suspendu », puis peut revenir à « Actif ».",
+        who: "Le donateur et le service donateur de SOS (simulé).",
+        note: "La suspension temporaire fait partie du descriptif PAP publié. L'animation et les messages sont simulés.",
+      },
+      {
+        title: "Résiliation définitive",
+        sub: "Mettre fin à l'engagement : une décision claire, confirmée et récapitulée.",
+        what: "Le donateur met fin à son engagement PAP. Le prélèvement récurrent s'arrête, le statut devient « PAP résilié » et un récapitulatif de l'histoire simulée est affiché.",
+        who: "Le donateur et le service donateur de SOS (simulé).",
+        note: "La résiliation fait partie du descriptif PAP publié. Le motif, les animations et le récapitulatif sont simulés.",
+      },
+    ],
+  },
   pap: {
     kicker: "Tab 2 — Comprendre le PAP",
     title: "Un soutien régulier, simplement.",
@@ -137,7 +234,7 @@ export const fr = {
     definitionBody:
       "PAP signifie Prélèvement Automatique Permanent. Il s'agit d'une contribution volontaire prélevée automatiquement chaque mois sur un compte courant tunisien, selon le montant choisi et autorisé par le donateur.",
     journeyKicker: "Parcours du donateur",
-    journeyTitle: "Six étapes, guidées avec vous",
+    journeyTitle: "Quatre étapes, guidées avec vous",
     journeyHint: "Avancez à votre rythme. Cette démonstration ne crée aucun mandat réel.",
     stepLabel: "Étape {current} sur {total}",
     steps: [
@@ -147,29 +244,19 @@ export const fr = {
           "SOS Villages d'Enfants accompagne des enfants et des familles. Un soutien récurrent permet de planifier dans la durée, au lieu de dépendre de gestes ponctuels.",
       },
       {
-        title: "Choisir",
+        title: "Choisir et autoriser",
         body:
-          "Vous choisissez librement le montant mensuel. Aucun montant n'est imposé par cette démonstration.",
+          "Vous choisissez librement le montant mensuel. La procédure réelle demande vos informations, le montant en chiffres et en lettres, un RIB, le premier mois de prélèvement, une autorisation et une signature. Un compte courant tunisien est requis.",
       },
       {
-        title: "Comprendre l'autorisation",
+        title: "Confirmer",
         body:
-          "La procédure PAP réelle demande les informations du donateur, le montant en chiffres et en lettres, un RIB et les coordonnées bancaires, le premier mois de prélèvement, une autorisation personnelle et une signature. Un compte courant tunisien est requis.",
+          "Voici une confirmation simulée. Ce message est entièrement fictif : aucun SMS réel n'est envoyé et aucune opération bancaire n'est effectuée.",
       },
       {
-        title: "Expérience SMS simulée",
+        title: "Chaque mois",
         body:
-          "Voici à quoi peut ressembler une confirmation. Ce message est entièrement fictif : aucun SMS réel n'est envoyé et aucune opération bancaire n'est effectuée.",
-      },
-      {
-        title: "Le prélèvement mensuel",
-        body:
-          "Le prélèvement normal a lieu le 25 du mois. Si le compte manque de solde, une seconde tentative est faite le 5 du mois suivant. Les prélèvements échoués ne sont pas cumulés.",
-      },
-      {
-        title: "Le choix reste au donateur",
-        body:
-          "Le donateur peut contacter SOS pour modifier le montant, suspendre temporairement ou arrêter sa contribution. Le soutien reste volontaire.",
+          "Le prélèvement normal a lieu le 25. Si le solde est insuffisant, une seconde tentative est faite le 5 du mois suivant, sans cumul des échecs. Vous pouvez contacter SOS pour modifier, suspendre ou arrêter votre soutien.",
       },
     ],
     amountTitle: "Choisissez un montant mensuel (simulation)",
@@ -178,7 +265,7 @@ export const fr = {
     smsTitle: "Notification simulée",
     smsFrom: "SOS PAP — simulation",
     smsBody:
-      "SIMULATION PAP - Votre choix pédagogique : {amount} DT par mois. Aucune opération bancaire n'a été effectuée.",
+      "SIMULATION PAP - Votre choix pédagogique : {amount} par mois. Aucune opération bancaire n'a été effectuée.",
     smsConfirm: "Confirmer ma simulation",
     smsConfirmedTitle: "Simulation confirmée",
     smsConfirmedBody:
