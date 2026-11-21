@@ -9,6 +9,11 @@ import {
 import { bestTopic, retrieve } from "@/lib/pap/retrieve";
 
 const SUGGESTIONS: Array<{ lang: (typeof LANGS)[number]; question: string; topic: string }> = [
+  { lang: "fr", question: "Bonjour", topic: "greeting" },
+  { lang: "fr", question: "Salut, tu peux m'aider ?", topic: "greeting" },
+  { lang: "ar", question: "مرحبا", topic: "greeting" },
+  { lang: "en", question: "Hello", topic: "greeting" },
+  { lang: "en", question: "Hey, can you help me?", topic: "greeting" },
   { lang: "fr", question: "C'est quoi exactement le PAP ?", topic: "definition" },
   {
     lang: "fr",

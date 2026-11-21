@@ -82,58 +82,6 @@ code { font-family: ui-monospace, "Cascadia Mono", monospace; font-size: 0.95em;
   border: 0;
 }
 
-/* ---------- masthead ---------- */
-.masthead {
-  background: var(--white);
-  border-bottom: 1px solid var(--line);
-  box-shadow: 0 2px 0 rgba(29, 55, 104, 0.03);
-}
-.masthead__inner {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 14px 22px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-}
-.brand__mark {
-  width: 46px; height: 46px;
-  background: var(--navy);
-  border-radius: 13px;
-  padding: 7px;
-  display: grid;
-  place-items: center;
-  box-shadow: 0 4px 0 rgba(29, 55, 104, 0.18);
-}
-.brand__mark .pix { width: 100%; height: 100%; }
-.brand__text { display: flex; flex-direction: column; line-height: 1.2; }
-.brand__title {
-  font-family: var(--font-pixel);
-  font-size: clamp(0.56rem, 1.1vw, 0.72rem);
-  letter-spacing: 0.01em;
-  color: var(--navy);
-}
-.brand__sub {
-  font-size: 0.76rem;
-  font-weight: 700;
-  color: var(--ink-soft);
-  margin-top: 3px;
-}
-.masthead__tools {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
 /* donor type switch */
 .seg {
   display: inline-flex;
@@ -210,34 +158,6 @@ code { font-family: ui-monospace, "Cascadia Mono", monospace; font-size: 0.95em;
   border: 2px solid var(--white);
 }
 
-.progress-mini {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  min-width: 110px;
-}
-.progress-mini__label {
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-}
-.progress-mini__bar {
-  display: block;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--light);
-  overflow: hidden;
-}
-.progress-mini__bar span {
-  display: block;
-  height: 100%;
-  background: var(--cyan);
-  border-radius: 999px;
-  transition: width 0.4s ease;
-}
-
 /* ---------- nav ---------- */
 .nav {
   position: sticky;
@@ -253,6 +173,7 @@ code { font-family: ui-monospace, "Cascadia Mono", monospace; font-size: 0.95em;
   padding: 8px 18px;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 6px;
   overflow-x: auto;
   scrollbar-width: thin;
