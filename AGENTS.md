@@ -27,7 +27,7 @@ second linter; Vitest and `tsc` are the established tools.
 - The historical 10 DT minimum is **historical**, not an established current
   rule. Never phrase it as mandatory.
 - Never claim an external integration works unless it was actually tested.
-  Without `DEEPSEEK_API_KEY`, the product is in curated mode.
+  Without `GROQ_API_KEY`, the product is in curated mode.
 
 ## Code layout
 
@@ -50,7 +50,8 @@ second linter; Vitest and `tsc` are the established tools.
 
 ## AI safeguards
 
-- DeepSeek is called only server-side through `src/lib/server/deepseek.ts`.
+- Groq is called only server-side through the shared client in
+  `src/lib/server/deepseek.ts`.
 - Validate model output before returning it: citation pages must be a subset of
   the retrieved pages, answers are length-bounded, quiz questions must be
   complete in all three languages and must not mention an unconfirmed minimum.

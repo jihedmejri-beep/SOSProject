@@ -14,14 +14,16 @@ real donation, and it stores no personal data.
 
 ```bash
 npm install
-cp .env.example .env.local   # optional: add DEEPSEEK_API_KEY
+cp .env.example .env.local   # optional: add GROQ_API_KEY
 npm run dev                  # http://localhost:3000
 ```
 
-Without `DEEPSEEK_API_KEY`, the app runs fully in **curated mode**: the
-assistant and the quiz use the reviewed local knowledge base. With a key, the
-server may call DeepSeek and validates every response before display; any
-failure silently falls back to curated content.
+Without `GROQ_API_KEY`, the app runs fully in **curated mode**: the assistant
+uses the reviewed local knowledge base and the quiz uses the curated questions
+derived from `sos-tunisie-pap-reference.md`. With a key, the shared client in
+`src/lib/server/deepseek.ts` calls Groq for both `/api/assistant` and `/api/quiz`;
+each route strictly validates the model output before display, and any failure
+silently falls back to curated content.
 
 ## Scripts
 
@@ -42,7 +44,7 @@ src/app/            App Router: single page + /api/assistant + /api/quiz
 src/components/     Shell, floating dock, welcome modal, tabs, pixel art
 src/lib/pap/        Pure PAP domain: facts, validation, quiz, retrieval, answers
 src/lib/i18n/       Typed FR/AR/EN dictionaries and localization helpers
-src/lib/server/     DeepSeek client, rate limiter, AI output validation
+src/lib/server/     shared Groq client, rate limiter, AI output validation
 tests/              Vitest: i18n, validation, domain, quiz, knowledge, sprites,
                     palette, server safeguards
 ```
@@ -60,7 +62,7 @@ See [docs/architecture/overview.md](docs/architecture/overview.md) for details.
 ## Testing and build
 
 ```bash
-npm test          # 91 tests
+npm test          # 116 tests
 npm run lint      # clean
 npm run build     # production build
 ```
@@ -79,8 +81,8 @@ npm run build     # production build
   never as a confirmed current rule.
 - Rate limiting is in-memory, per instance. A shared store is required for
   strict multi-instance limits.
-- DeepSeek integration is implemented and validated, but could not be exercised
-  end-to-end without an API key in this environment.
+- The Groq integration is implemented with strict output validation, but a live
+  call could not be exercised without an API key in this environment.
 
 ## Documentation
 

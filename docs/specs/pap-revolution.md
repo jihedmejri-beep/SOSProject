@@ -33,8 +33,9 @@ Five tabs, one per vertical slice:
 2. **PAP** — an interactive, five-step journey: what PAP is, the mandate, the
    monthly debit, the 25th/5th calendar, and how to change or stop it. Includes a
    transparent monthly-budget simulator.
-3. **Quiz** — six questions (two easy, two medium, two hard), immediate feedback,
-   explanations and a source page for each answer.
+3. **Quiz** — five questions (two easy, two medium, one hard) drawn from the
+   reference guide, with immediate feedback, explanations and a source page for
+   each answer.
 4. **Assistant** — a chat grounded in the reviewed knowledge base, with visible
    citations, source status and an explicit curated/AI mode label.
 5. **Donate** — the two official routes (one-off/online donation vs PAP), a
@@ -54,7 +55,9 @@ Arabic switches the document to RTL.
 - No invented facts. Every factual claim maps to a knowledge chunk with a guide
   page. The historical 10 DT minimum is historical, never mandatory.
 - Never claim an integration works unless it was tested. Without
-  `DEEPSEEK_API_KEY` the product is explicitly in curated mode.
+  `GROQ_API_KEY` the product is explicitly in curated mode. The shared client in
+  `src/lib/server/deepseek.ts` calls Groq for both API routes; each keeps strict
+  output validation and a curated fallback.
 
 ## Verified facts used
 
