@@ -170,9 +170,8 @@ svg {
 
 .brand-mark {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
-  gap: 1px;
   width: 64px;
   height: 64px;
   padding: 7px 6px 5px;
@@ -183,18 +182,10 @@ svg {
   flex: 0 0 auto;
 }
 
-.brand-mark svg {
-  height: 34px;
-  width: auto;
-}
-
-.brand-mark .brand-sprout {
-  height: 28px;
-  margin-bottom: 3px;
-}
-
-.brand-mark .brand-child-2 {
-  transform: scaleX(-1);
+.brand-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .brand-text {
@@ -1978,14 +1969,6 @@ svg {
     height: 54px;
     padding: 6px 5px 4px;
     border-radius: 15px;
-  }
-
-  .brand-mark svg {
-    height: 28px;
-  }
-
-  .brand-mark .brand-sprout {
-    height: 23px;
   }
 
   .scene {
