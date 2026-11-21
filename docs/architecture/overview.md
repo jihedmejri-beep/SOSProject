@@ -3,7 +3,8 @@
 ## Shape
 
 A single Next.js App Router page renders a client experience; two Node-runtime
-API routes optionally call Groq. There is no database and no server session.
+API routes optionally call Groq through a shared server-only client. There is no
+database and no server session.
 
 ```
 Browser
@@ -77,8 +78,9 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 ## Server safeguards
 
 - **Secret isolation.** `GROQ_API_KEY` is read only in
-  `src/lib/server/groq.ts`; no `NEXT_PUBLIC_` secret exists. The base URL must
-  parse and use HTTPS.
+  `src/lib/server/groq.ts`, the shared server-side client that calls Groq for
+  both routes; no `NEXT_PUBLIC_` secret exists. Each route keeps strict output
+  validation and a curated fallback. The base URL must parse and use HTTPS.
 - **No raw output.** The assistant accepts only JSON with a bounded answer
   (20–1600 chars), a boolean `supported`, and section numbers that exist in the
   reference. Unsupported answers are returned without citations. Anything else
@@ -110,10 +112,13 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 ## Data flow: quiz
 
 1. Rate-limit the request.
-2. If a key exists, ask for six trilingual questions from the knowledge facts.
-3. Validate every item and keep only accepted ones.
-4. Require at least two accepted questions per difficulty; otherwise return the
-   curated quiz. When satisfied, shuffle the six AI questions and return them.
+2. If a key exists, ask for five trilingual questions (2 easy, 2 medium, 1 hard)
+   from the reference facts.
+3. Validate every item, including that its source page is one of the reference
+   fact pages, and keep only accepted ones.
+4. Require two easy, two medium and one hard accepted question; otherwise return
+   the curated quiz. When satisfied, shuffle the five AI questions and return
+   them.
 
 ## Styling
 
@@ -142,5 +147,6 @@ a direction-aware layout. Motion respects `prefers-reduced-motion`.
   the brief. The assistant's AI mode uses the independent
   `sos-tunisie-pap-reference.md`; both must be reviewed against current SOS
   material.
-- The Groq path is implemented but untested end-to-end without a key.
+- The Groq path is implemented with strict validation but untested end-to-end
+  without a key.
 - Rate limiting is per process.

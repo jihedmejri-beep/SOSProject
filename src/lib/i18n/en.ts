@@ -525,14 +525,14 @@ export const en: Dictionary = {
     kicker: "Tab 3 — PAP quiz",
     title: "Test your understanding of PAP",
     subtitle:
-      "Six questions from a verified bank, with immediate correction and the source page for every answer.",
+      "Five questions from the PAP reference guide, with immediate correction and the source page for every answer.",
     gateTitle: "The quiz is reserved for demonstration profiles",
     gateBody:
       "The quiz is reserved for visitors with a demonstration profile.",
     gateCta: "Create my profile",
     startTitle: "Ready to check your knowledge?",
     startBody:
-      "2 easy, 2 medium and 2 hard questions. You can restart as many times as you like.",
+      "2 easy, 2 medium and 1 hard question. You can restart as many times as you like.",
     startCta: "Start the quiz",
     level: "Level",
     levels: { easy: "Easy", medium: "Medium", hard: "Hard" },

@@ -1,10 +1,64 @@
 import type { Lang } from "@/lib/i18n/types";
 import type { Difficulty, QuizQuestion } from "@/lib/pap/quiz";
+import { QUIZ_DISTRIBUTION, QUIZ_LENGTH, questionFingerprint, shuffle } from "@/lib/pap/quiz";
+import type { QuizReferenceFact } from "@/lib/pap/quizReference";
 import { LANGS } from "@/lib/i18n/types";
 
 const DIFFICULTIES: Difficulty[] = ["easy", "medium", "hard"];
 const MIN_PAGE = 3;
 const MAX_PAGE = 17;
+const SEEN_PROMPT_MAX = 20;
+const SEEN_PROMPT_CHARS = 200;
+
+export const QUIZ_SYSTEM_PROMPT = [
+  "You write a short quiz about the PAP (Prélèvement Automatique Permanent) of SOS Villages d'Enfants Tunisie.",
+  "Use ONLY the FACTS provided; they are condensed from the SOS PAP reference file.",
+  "Every factual claim in a question, option and explanation must come from those FACTS.",
+  "Never present an unconfirmed minimum amount as an official rule; avoid the word minimum entirely.",
+  "Write exactly 5 questions: 2 easy, 2 medium and 1 hard.",
+  "Every question, option and explanation must be provided in French (fr), Arabic (ar) and English (en).",
+  "Each question has exactly 4 options and one correct index from 0 to 3.",
+  "sourcePage must be one of the page numbers present in the FACTS.",
+  'Return ONLY JSON: {"questions":[{"difficulty":"easy","sourcePage":4,"question":{"fr":"","ar":"","en":""},"options":[{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""}],"correct":0,"explanation":{"fr":"","ar":"","en":""}}]}.',
+  "If the user message lists previously used prompts, do not reuse them or near-duplicates.",
+].join(" ");
+
+export function buildQuizFacts(facts: QuizReferenceFact[]): string {
+  return facts.map((fact) => `[p.${fact.page}] ${fact.text}`).join("\n");
+}
+
+export function parseSeenPrompts(raw: unknown): string[] {
+  if (!Array.isArray(raw)) return [];
+  const seen: string[] = [];
+  for (const item of raw) {
+    if (typeof item !== "string") continue;
+    const normalized = item.replace(/\s+/g, " ").trim();
+    if (normalized.length === 0) continue;
+    seen.push(normalized.slice(0, SEEN_PROMPT_CHARS));
+  }
+  return seen.slice(0, SEEN_PROMPT_MAX);
+}
+
+export function buildQuizUserPrompt(facts: string, seen: string[]): string {
+  let prompt = `FACTS:\n${facts}`;
+  if (seen.length > 0) {
+    prompt += "\n\nAVOID THESE PREVIOUS QUESTION PROMPTS (do not reuse or paraphrase):\n";
+    prompt += seen.map((item, index) => `${index + 1}. ${item}`).join("\n");
+  }
+  return prompt;
+}
+
+export function parseQuizRequestBody(raw: string | null): { seen: string[] } {
+  if (!raw) return { seen: [] };
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { seen: [] };
+  }
+  if (!isRecord(parsed)) return { seen: [] };
+  return { seen: parseSeenPrompts((parsed as { seen?: unknown }).seen) };
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -29,7 +83,10 @@ function hasUnconfirmedMinimum(text: string): boolean {
  * Strict validation for model-generated quiz questions. Anything ambiguous,
  * incomplete or mentioning an unconfirmed minimum is rejected.
  */
-export function validateGeneratedQuestions(input: unknown): QuizQuestion[] {
+export function validateGeneratedQuestions(
+  input: unknown,
+  allowedPages?: ReadonlySet<number>,
+): QuizQuestion[] {
   if (!isRecord(input)) return [];
   const rawQuestions = input.questions;
   if (!Array.isArray(rawQuestions)) return [];
@@ -48,7 +105,8 @@ export function validateGeneratedQuestions(input: unknown): QuizQuestion[] {
       typeof sourcePage !== "number" ||
       !Number.isInteger(sourcePage) ||
       sourcePage < MIN_PAGE ||
-      sourcePage > MAX_PAGE
+      sourcePage > MAX_PAGE ||
+      (allowedPages !== undefined && !allowedPages.has(sourcePage))
     ) {
       return;
     }
@@ -74,7 +132,7 @@ export function validateGeneratedQuestions(input: unknown): QuizQuestion[] {
 
     if (hasUnconfirmedMinimum(allText)) return;
 
-    const fingerprint = question.fr.toLowerCase().replace(/\s+/g, " ").trim();
+    const fingerprint = questionFingerprint(raw as QuizQuestion);
     if (seen.has(fingerprint)) return;
     seen.add(fingerprint);
 
@@ -92,6 +150,24 @@ export function validateGeneratedQuestions(input: unknown): QuizQuestion[] {
   });
 
   return accepted;
+}
+
+/**
+ * Keeps the 2 easy / 2 medium / 1 hard split. Returns null when the model did
+ * not produce enough accepted questions for one of the levels.
+ */
+export function selectBalancedQuestions(
+  generated: QuizQuestion[],
+  rng: () => number = Math.random,
+): QuizQuestion[] | null {
+  const picked: QuizQuestion[] = [];
+  for (const level of DIFFICULTIES) {
+    const ofLevel = generated.filter((question) => question.difficulty === level);
+    const needed = QUIZ_DISTRIBUTION[level];
+    if (ofLevel.length < needed) return null;
+    picked.push(...ofLevel.slice(0, needed));
+  }
+  return shuffle(picked, rng).slice(0, QUIZ_LENGTH);
 }
 
 function hash(value: string): number {
