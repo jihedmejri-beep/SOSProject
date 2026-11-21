@@ -60,7 +60,7 @@ See [docs/architecture/overview.md](docs/architecture/overview.md) for details.
 ## Testing and build
 
 ```bash
-npm test          # 90 tests
+npm test          # 91 tests
 npm run lint      # clean
 npm run build     # production build
 ```

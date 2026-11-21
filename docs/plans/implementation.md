@@ -21,7 +21,7 @@ Status at the end of the build session. Update this file when a slice changes.
 - [x] Assistant tab: chat, suggestions, citations, status badges, retry, clear.
 - [x] Donate tab: two official routes, comparison, official links.
 - [x] `/api/assistant`: retrieval, curated fallback, validated DeepSeek path.
-- [x] `/api/quiz`: curated fallback, validated trilingual generation, merge.
+- [x] `/api/quiz`: curated fallback, validated balanced trilingual generation.
 - [x] Server safeguards: HTTPS config, input bounds, rate limiter, no raw output.
 - [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server.
 - [x] Production build, typecheck and full test suite green.
@@ -30,7 +30,7 @@ Status at the end of the build session. Update this file when a slice changes.
 ## Verification
 
 ```text
-npm test       90 passed
+npm test       91 passed
 npm run lint   clean
 npm run build  success (static /, dynamic /api/assistant and /api/quiz)
 ```

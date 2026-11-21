@@ -62,7 +62,7 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 - `api/assistant/route.ts`: input bounds, rate limit, retrieval, curated answer,
   optional model call, strict validation, fallback.
 - `api/quiz/route.ts`: rate limit, curated bank, optional trilingual generation,
-  strict validation, merge with curated questions, fallback.
+  strict validation, balanced AI set or curated fallback.
 
 ## Server safeguards
 
@@ -99,8 +99,8 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 1. Rate-limit the request.
 2. If a key exists, ask for six trilingual questions from the knowledge facts.
 3. Validate every item and keep only accepted ones.
-4. Merge with the curated bank so each difficulty has two questions, shuffle and
-   return six. Without a key or valid output, return the curated quiz.
+4. Require at least two accepted questions per difficulty; otherwise return the
+   curated quiz. When satisfied, shuffle the six AI questions and return them.
 
 ## Styling
 

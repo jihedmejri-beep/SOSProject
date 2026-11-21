@@ -1,13 +1,7 @@
 import { NextResponse } from "next/server";
 import type { QuizResponse } from "@/lib/api/types";
 import { KNOWLEDGE } from "@/lib/pap/knowledge";
-import {
-  QUIZ_QUESTIONS,
-  QUIZ_LENGTH,
-  shuffle,
-  type Difficulty,
-  type QuizQuestion,
-} from "@/lib/pap/quiz";
+import { buildQuiz, QUIZ_LENGTH, shuffle, type Difficulty, type QuizQuestion } from "@/lib/pap/quiz";
 import { chatCompletion } from "@/lib/server/deepseek";
 import {
   parseJsonObject,
@@ -48,19 +42,16 @@ const SYSTEM_PROMPT = [
   'Return ONLY JSON: {"questions":[{"difficulty":"easy","sourcePage":4,"question":{"fr":"","ar":"","en":""},"options":[{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""},{"fr":"","ar":"","en":""}],"correct":0,"explanation":{"fr":"","ar":"","en":""}}]}.',
 ].join(" ");
 
-function mergeQuestions(generated: QuizQuestion[]): QuizQuestion[] {
+function curatedQuiz(): QuizResponse {
+  return { mode: "curated", questions: buildQuiz() };
+}
+
+function balancedAiQuiz(generated: QuizQuestion[]): QuizQuestion[] | null {
   const picked: QuizQuestion[] = [];
   for (const level of LEVELS) {
-    const chosen = generated.filter((question) => question.difficulty === level).slice(0, 2);
-    if (chosen.length < 2) {
-      for (const fallback of QUIZ_QUESTIONS) {
-        if (chosen.length >= 2) break;
-        if (fallback.difficulty !== level) continue;
-        if (chosen.some((question) => question.id === fallback.id)) continue;
-        chosen.push(fallback);
-      }
-    }
-    picked.push(...chosen.slice(0, 2));
+    const ofLevel = generated.filter((question) => question.difficulty === level);
+    if (ofLevel.length < 2) return null;
+    picked.push(...ofLevel.slice(0, 2));
   }
   return shuffle(picked).slice(0, QUIZ_LENGTH);
 }
@@ -79,17 +70,9 @@ export async function POST(request: Request): Promise<NextResponse> {
   );
 
   const generated = validateGeneratedQuestions(parseJsonObject(raw));
-  if (generated.length === 0) {
-    const payload: QuizResponse = {
-      mode: "curated",
-      questions: shuffle(QUIZ_QUESTIONS).slice(0, QUIZ_LENGTH),
-    };
-    return NextResponse.json(payload);
-  }
+  const questions = generated.length > 0 ? balancedAiQuiz(generated) : null;
+  if (!questions) return NextResponse.json(curatedQuiz());
 
-  const payload: QuizResponse = {
-    mode: "ai",
-    questions: mergeQuestions(generated),
-  };
+  const payload: QuizResponse = { mode: "ai", questions };
   return NextResponse.json(payload);
 }

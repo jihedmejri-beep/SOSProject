@@ -64,13 +64,15 @@ export function tokenize(text: string, lang: Lang): string[] {
 function scoreChunk(question: string, lang: Lang, chunk: KnowledgeChunk): number {
   const questionNorm = normalizeForSearch(question, lang);
   const questionTokens = new Set(tokenize(question, lang));
+  const seenKeywords = new Set<string>();
   let score = 0;
   let keywordScore = 0;
 
   for (const keywordLang of ["fr", "ar", "en"] as Lang[]) {
     for (const rawKeyword of pickLocalizedList(chunk.keywords, keywordLang)) {
       const keyword = normalizeForSearch(rawKeyword, keywordLang);
-      if (keyword.length < 2) continue;
+      if (keyword.length < 2 || seenKeywords.has(keyword)) continue;
+      seenKeywords.add(keyword);
       if (questionNorm.includes(keyword)) {
         keywordScore += keyword.includes(" ") ? 7 : 5;
       }
