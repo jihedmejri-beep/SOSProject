@@ -25,7 +25,6 @@
   function header() {
     var st = Store.state;
     var done = Store.progress();
-    var unread = Store.unreadCount();
     return '' +
       '<div class="masthead__inner">' +
       '<div class="masthead__tools">' +
@@ -35,8 +34,6 @@
       '<button type="button" class="seg__btn' + (st.donorType === 'company' ? ' is-on' : '') + '" data-donor="company" aria-pressed="' + (st.donorType === 'company') + '">' +
       '<span class="seg__art">' + window.Art.avatar('company') + '</span><span class="seg__label">' + UI.esc(UI.t('u.company')) + '</span></button>' +
       '</div>' +
-      '<button type="button" class="icon-btn bell" data-nav="messages" aria-label="' + UI.esc(UI.t('u.messages')) + '">' +
-      UI.icon('bell', '', 20) + (unread ? '<span class="bell__badge">' + unread + '</span>' : '') + '</button>' +
       '<div class="progress-mini" title="' + UI.esc(UI.t('u.progressFull', { done: done })) + '">' +
       '<span class="progress-mini__label">' + UI.esc(UI.t('u.step')) + ' ' + Math.min(done + 1, 10) + ' / 10</span>' +
       '<span class="progress-mini__bar"><span style="width:' + (done / 10 * 100) + '%"></span></span>' +
@@ -46,9 +43,7 @@
 
   function nav() {
     var parts = [
-      navButton('map', UI.icon('map', '', 16) + '<span>' + UI.esc(UI.t('nav.map')) + '</span>'),
-      navButton('messages', UI.icon('bell', '', 16) + '<span>' + UI.esc(UI.t('nav.messages')) + '</span>' +
-        (Store.unreadCount() ? '<em class="nav__badge">' + Store.unreadCount() + '</em>' : ''))
+      navButton('map', UI.icon('map', '', 16) + '<span>' + UI.esc(UI.t('nav.map')) + '</span>')
     ];
     return '<div class="nav__inner">' + parts.join('') + '</div>' +
       '<span class="sr-only">' + UI.esc(UI.t('u.progressFull', { done: Store.progress() })) + '</span>';
@@ -89,13 +84,6 @@
     });
     document.querySelectorAll('#masthead [data-lang]').forEach(function (b) {
       b.addEventListener('click', function () { setLang(b.getAttribute('data-lang')); });
-    });
-    document.querySelectorAll('#masthead [data-nav]').forEach(function (b) {
-      b.addEventListener('click', function (e) {
-        e.preventDefault();
-        var target = b.getAttribute('data-nav');
-        go(target === 'stage' ? 'map' : target);
-      });
     });
     document.querySelectorAll('#mainNav [data-nav]').forEach(function (b) {
       b.addEventListener('click', function () {
