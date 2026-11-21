@@ -20,6 +20,27 @@ export type KnowledgeChunk = {
  */
 export const KNOWLEDGE: KnowledgeChunk[] = [
   {
+    id: "greeting",
+    topic: "greeting",
+    page: 3,
+    status: "educational",
+    title: {
+      fr: "Accueil",
+      ar: "ترحيب",
+      en: "Welcome",
+    },
+    text: {
+      fr: "Bienvenue ! Je suis l'Assistant PAP de SOS Villages d'Enfants Tunisie. Je peux vous expliquer le Prélèvement Automatique Permanent (PAP), répondre à vos questions sur le fonctionnement du don mensuel, et vous guider dans votre découverte du programme.",
+      ar: "أهلاً وسهلاً! أنا مساعد الاقتطاع التلقائي الدائم لقرى SOS للأطفال بتونس. يمكنني شرح برنامج الاقتطاع والإجابة عن أسئلتكم حول التبرع الشهري ومرافقتكم في اكتشاف البرنامج.",
+      en: "Welcome! I am the PAP Assistant for SOS Children's Villages Tunisia. I can explain the automatic monthly debit programme (PAP), answer your questions about how the monthly donation works, and guide you through discovering the programme.",
+    },
+    keywords: {
+      fr: ["bonjour", "salut", "bonsoir", "coucou", "hello", "salam", "merci", "bienvenue", "aide", "aidez-moi"],
+      ar: ["مرحبا", "أهلا", "سلام", "صباح", "مساء", "شكرا", "مساعدة", "ساعدني"],
+      en: ["hello", "hi", "hey", "good morning", "good evening", "thanks", "thank you", "help", "help me"],
+    },
+  },
+  {
     id: "definition",
     topic: "definition",
     page: 4,
@@ -301,6 +322,15 @@ export type CuratedAnswer = {
 };
 
 export const CURATED_ANSWERS: Record<string, CuratedAnswer> = {
+  greeting: {
+    topic: "greeting",
+    pages: [3],
+    answer: {
+      fr: "Bonjour ! 😊 Je suis l'Assistant PAP, ici pour répondre à vos questions sur le Prélèvement Automatique Permanent de SOS Villages d'Enfants Tunisie. N'hésitez pas à me poser une question, par exemple : « C'est quoi le PAP ? » ou « Comment fonctionne le prélèvement ? »",
+      ar: "أهلاً وسهلاً! 😊 أنا مساعد الاقتطاع، هنا للإجابة عن أسئلتكم حول برنامج الاقتطاع التلقائي الدائم لقرى SOS للأطفال بتونس. لا تترددوا في طرح سؤال، مثلاً: « ما هو الاقتطاع؟ » أو « كيف يعمل السحب الشهري؟ »",
+      en: "Hello! 😊 I'm the PAP Assistant, here to answer your questions about the automatic monthly debit programme of SOS Children's Villages Tunisia. Feel free to ask me anything, for example: \"What is PAP?\" or \"How does the monthly debit work?\"",
+    },
+  },
   definition: {
     topic: "definition",
     pages: [4],
