@@ -1,5 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { getGroqConfig, isGroqConfigured, chatCompletion } from "@/lib/server/deepseek";
+import { chatCompletion, getGroqConfig, isGroqConfigured } from "@/lib/server/groq";
+
+const KEYS = [
+  "GROQ_API_KEY",
+  "GROQ_BASE_URL",
+  "GROQ_MODEL",
+  "GROQ_TIMEOUT_MS",
+] as const;
 
 beforeEach(() => {
   vi.stubEnv("GROQ_API_KEY", "");
@@ -9,6 +16,7 @@ beforeEach(() => {
   vi.spyOn(console, "log").mockImplementation(() => {});
   vi.spyOn(console, "error").mockImplementation(() => {});
 });
+
 afterEach(() => {
   vi.unstubAllEnvs();
   vi.restoreAllMocks();
@@ -50,8 +58,8 @@ describe("Groq configuration", () => {
 
     const config = getGroqConfig();
     expect(config?.baseUrl).toBe("https://api.groq.com/openai/v1");
-    expect(config?.model).toBe("llama-3.3-70b-versatile");
-    expect(config?.timeoutMs).toBe(15000);
+    expect(config?.model).toBe("openai/gpt-oss-120b");
+    expect(config?.timeoutMs).toBe(25000);
   });
 
   it("rejects malformed and non-HTTPS base URLs", () => {
@@ -68,7 +76,7 @@ describe("Groq configuration", () => {
     vi.stubEnv("GROQ_API_KEY", "gsk_test");
     vi.stubEnv("GROQ_TIMEOUT_MS", "200");
 
-    expect(getGroqConfig()?.timeoutMs).toBe(15000);
+    expect(getGroqConfig()?.timeoutMs).toBe(25000);
   });
 });
 
@@ -96,6 +104,23 @@ describe("Groq chatCompletion", () => {
       max_tokens: 2400,
       temperature: 0.7,
     });
+  });
+
+  it("retries without JSON mode when the API rejects that mode", async () => {
+    vi.stubEnv("GROQ_API_KEY", "gsk_test");
+    const fetchSpy = vi
+      .spyOn(globalThis, "fetch")
+      .mockResolvedValueOnce(new Response("{}", { status: 400 }))
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ choices: [{ message: { content: "retried" } }] }), {
+          status: 200,
+        }),
+      );
+
+    expect(await chatCompletion([{ role: "user", content: "hi" }], { json: true })).toBe("retried");
+    expect(fetchSpy).toHaveBeenCalledTimes(2);
+    const secondBody = JSON.parse(String(fetchSpy.mock.calls[1]?.[1]?.body)) as Record<string, unknown>;
+    expect(secondBody).not.toHaveProperty("response_format");
   });
 
   it("returns null on a non-2xx response", async () => {

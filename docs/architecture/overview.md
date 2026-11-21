@@ -14,7 +14,7 @@ Browser
       TabPanel: Impact | PAP | Quiz | Assistant | Donate
       FloatingDock (hash routing, keyboard, swipe)
       WelcomeModal (focus trap, in-memory profile or guest)
-  POST /api/assistant ──► retrieve → curated answer → optional Groq
+  POST /api/assistant ──► PAP reference → curated fallback → optional Groq
   POST /api/quiz      ──► curated bank → optional Groq generation
 ```
 
@@ -60,21 +60,31 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 
 - `layout.tsx`: static French metadata and `<html lang="fr" dir="ltr">`.
 - `page.tsx`: provider + shell.
-- `api/assistant/route.ts`: input bounds, rate limit, retrieval, curated answer,
-  optional model call, strict validation, fallback.
+- `api/assistant/route.ts`: input bounds, rate limit, full-reference prompt,
+  optional Groq call, strict section validation, curated fallback.
 - `api/quiz/route.ts`: rate limit, curated bank, optional trilingual generation,
   strict validation, balanced AI set or curated fallback.
+
+### `src/lib/server` — server-only
+
+- `groq.ts`: OpenAI-compatible Groq client, HTTPS base URL, timeout, silent
+  failure. Never imported by a client component.
+- `papReference.ts`: reads and caches `sos-tunisie-pap-reference.md` and parses
+  its numbered `##` sections. `next.config.ts` traces the file for
+  `/api/assistant`.
+- `assistantAnswer.ts`: system prompt, JSON parsing and citation validation.
+- `quizGeneration.ts`, `rateLimit.ts`: AI quiz validation and in-memory limits.
 
 ## Server safeguards
 
 - **Secret isolation.** `GROQ_API_KEY` is read only in
-  `src/lib/server/deepseek.ts`, the shared server-side client that calls Groq
-  for both routes; no `NEXT_PUBLIC_` secret exists. Each route keeps strict
-  output validation and a curated fallback. The base URL must parse and use
-  HTTPS.
+  `src/lib/server/groq.ts`, the shared server-side client that calls Groq for
+  both routes; no `NEXT_PUBLIC_` secret exists. Each route keeps strict output
+  validation and a curated fallback. The base URL must parse and use HTTPS.
 - **No raw output.** The assistant accepts only JSON with a bounded answer
-  (20–1500 chars), `confident: true`, and citation pages that are a subset of
-  the retrieved pages. Anything else returns the curated answer.
+  (20–1600 chars), a boolean `supported`, and section numbers that exist in the
+  reference. Unsupported answers are returned without citations. Anything else
+  returns the curated answer.
 - **Quiz validation.** Generated questions must have two/three difficulty
   levels, a guide page in 3–17, four options, one valid index, complete FR/AR/EN
   strings and no mention of an unconfirmed minimum. Invalid items are dropped;
@@ -90,11 +100,13 @@ The language is persisted under `sos.pap.lang`; the default is always `fr`.
 ## Data flow: assistant
 
 1. Validate `{question, lang}`.
-2. `answerFromKnowledge` decides support and provides the curated fallback.
-3. Retrieve the top three chunks and build a page-labelled context.
-4. If a key exists, call Groq in JSON mode with a strict system prompt.
-5. Parse and validate; on success return `mode: "ai"` and citations restricted
-   to retrieved pages.
+2. Load the independent PAP reference and the curated fallback.
+3. If a key exists, send the full reference with a strict system prompt that
+   fixes the tone, forbids invented facts and specifies the answer language.
+4. For Arabic, require warm Modern Standard Arabic; keep PAP/RIB terms where
+   useful. Chat bubbles use `dir="auto"`.
+5. Parse and validate; on success return `mode: "ai"`, the supported flag and
+   citations mapped to reference sections (`source: "reference"`).
 6. Otherwise return `mode: "curated"` with the deterministic answer.
 
 ## Data flow: quiz
@@ -131,8 +143,10 @@ a direction-aware layout. Motion respects `prefers-reduced-motion`.
 
 - Official logo and font assets were not provided; `Brand` uses an original
   pixel mark.
-- The source PDF was unavailable; facts come from the verified list in the brief
-  and must be checked against the final guide.
+- The source PDF was unavailable; curated facts come from the verified list in
+  the brief. The assistant's AI mode uses the independent
+  `sos-tunisie-pap-reference.md`; both must be reviewed against current SOS
+  material.
 - The Groq path is implemented with strict validation but untested end-to-end
   without a key.
 - Rate limiting is per process.

@@ -51,9 +51,15 @@ second linter; Vitest and `tsc` are the established tools.
 ## AI safeguards
 
 - Groq is called only server-side through the shared client in
-  `src/lib/server/deepseek.ts`.
-- Validate model output before returning it: citation pages must be a subset of
-  the retrieved pages, answers are length-bounded, quiz questions must be
-  complete in all three languages and must not mention an unconfirmed minimum.
+  `src/lib/server/groq.ts`.
+- The assistant's factual source is `sos-tunisie-pap-reference.md`, loaded by
+  `src/lib/server/papReference.ts`. Keep the file at the project root; Next
+  traces it for `/api/assistant`. The reference is independent, not official.
+- Arabic answers must be warm Modern Standard Arabic, not dialect or literal
+  translation. Keep the UI `dir="auto"` on chat text.
+- Validate model output before returning it: citations must be existing
+  reference sections, answers are length-bounded, unsupported claims must say so,
+  and quiz questions must be complete in all three languages without an
+  unconfirmed minimum.
 - On any error, timeout, missing key or failed validation, return curated
   content. Never surface raw model output.

@@ -111,6 +111,25 @@ describe("retrieval", () => {
     expect(answer.citations).toHaveLength(0);
     expect(answer.answer).toBe(UNSUPPORTED_ANSWER.fr);
   });
+
+  it("does not route generic personal questions to child privacy", () => {
+    const best = bestTopic("Quel est le numéro personnel du directeur de SOS ?", "fr");
+    expect(best).toBeNull();
+    const answer = answerFromKnowledge(
+      "Quel est le numéro personnel du directeur de SOS ?",
+      "fr",
+    );
+    expect(answer.supported).toBe(false);
+    expect(answer.citations).toHaveLength(0);
+  });
+
+  it("still routes specific child-privacy questions", () => {
+    expect(bestTopic("Puis-je choisir un enfant ?", "fr")?.topic).toBe("privacy");
+    expect(
+      bestTopic("Les informations personnelles des enfants sont-elles protégées ?", "fr")
+        ?.topic,
+    ).toBe("privacy");
+  });
 });
 
 describe("grounded answers", () => {

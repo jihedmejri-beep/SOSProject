@@ -21,17 +21,23 @@ Status at the end of the build session. Update this file when a slice changes.
   explanations, restart.
 - [x] Assistant tab: chat, suggestions, citations, status badges, retry, clear.
 - [x] Donate tab: two official routes, comparison, official links.
-- [x] `/api/assistant`: retrieval, curated fallback, validated Groq path.
+- [x] `/api/assistant`: reference-grounded answer, curated fallback, validated
+  Groq path with Arabic-friendly prompting.
 - [x] `/api/quiz`: curated fallback, validated balanced trilingual generation.
 - [x] Server safeguards: HTTPS config, input bounds, rate limiter, no raw output.
-- [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server.
+- [x] Tests: i18n, validation, domain, quiz, knowledge, sprites, palette, server,
+  PAP reference, assistant prompt/validation and Groq configuration.
+- [x] Curated retrieval regression: off-topic personal questions are refused
+  instead of being routed to the child-privacy chunk.
+- [x] Runtime smoke test in curated mode: home 200, FR/AR grounded answers,
+  off-topic refusal, quiz with five questions, invalid input 400.
 - [x] Production build, typecheck and full test suite green.
 - [x] README, AGENTS, GLOSSARY, spec, architecture and this plan.
 
 ## Verification
 
 ```text
-npm test       91 passed
+npm test       130 passed
 npm run lint   clean
 npm run build  success (static /, dynamic /api/assistant and /api/quiz)
 ```

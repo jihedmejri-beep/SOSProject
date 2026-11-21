@@ -11,7 +11,7 @@ export type GroqConfig = {
 };
 
 const DEFAULT_BASE_URL = "https://api.groq.com/openai/v1";
-const DEFAULT_MODEL = "llama-3.3-70b-versatile";
+const DEFAULT_MODEL = "openai/gpt-oss-120b";
 
 export function getGroqConfig(): GroqConfig | null {
   const apiKey = process.env.GROQ_API_KEY?.trim();
@@ -26,12 +26,12 @@ export function getGroqConfig(): GroqConfig | null {
   }
   if (baseUrl.protocol !== "https:") return null;
 
-  const timeout = Number(process.env.GROQ_TIMEOUT_MS ?? 15000);
+  const timeout = Number(process.env.GROQ_TIMEOUT_MS ?? 25000);
   return {
     apiKey,
-    baseUrl: baseUrl.origin + baseUrl.pathname.replace(/\/$/, ""),
+    baseUrl: `${baseUrl.origin}${baseUrl.pathname.replace(/\/$/, "")}`,
     model: process.env.GROQ_MODEL?.trim() || DEFAULT_MODEL,
-    timeoutMs: Number.isFinite(timeout) && timeout > 1000 ? timeout : 15000,
+    timeoutMs: Number.isFinite(timeout) && timeout > 1000 ? timeout : 25000,
   };
 }
 
@@ -41,14 +41,48 @@ export function isGroqConfigured(): boolean {
 
 type CompletionOptions = {
   maxTokens?: number;
+  temperature?: number;
   json?: boolean;
   timeoutMs?: number;
-  temperature?: number;
 };
 
+type CompletionResponse = {
+  ok: boolean;
+  status: number;
+  json: () => Promise<unknown>;
+};
+
+async function callGroq(
+  config: GroqConfig,
+  messages: ChatMessage[],
+  options: CompletionOptions,
+  useJsonMode: boolean,
+  signal: AbortSignal,
+): Promise<CompletionResponse> {
+  const response = await fetch(`${config.baseUrl}/chat/completions`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${config.apiKey}`,
+    },
+    body: JSON.stringify({
+      model: config.model,
+      messages,
+      temperature: options.temperature ?? 0.2,
+      max_tokens: options.maxTokens ?? 900,
+      ...(useJsonMode ? { response_format: { type: "json_object" } } : {}),
+    }),
+    signal,
+    cache: "no-store",
+  });
+  return response;
+}
+
 /**
- * Server-only Groq call. Never throws and never logs secrets. Returns null
- * on any failure so callers can fall back to the curated knowledge base.
+ * Server-only Groq call. Groq exposes an OpenAI-compatible chat endpoint.
+ * Never throws and never logs secrets; returns null on any failure so callers
+ * can fall back to curated content.
  */
 export async function chatCompletion(
   messages: ChatMessage[],
@@ -64,22 +98,11 @@ export async function chatCompletion(
   );
 
   try {
-    const response = await fetch(`${config.baseUrl}/chat/completions`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${config.apiKey}`,
-      },
-      body: JSON.stringify({
-        model: config.model,
-        messages,
-        temperature: options.temperature ?? 0.2,
-        max_tokens: options.maxTokens ?? 700,
-        ...(options.json ? { response_format: { type: "json_object" } } : {}),
-      }),
-      signal: controller.signal,
-      cache: "no-store",
-    });
+    let response = await callGroq(config, messages, options, Boolean(options.json), controller.signal);
+
+    if (!response.ok && options.json && (response.status === 400 || response.status === 422)) {
+      response = await callGroq(config, messages, options, false, controller.signal);
+    }
 
     if (!response.ok) return null;
     const data: unknown = await response.json();

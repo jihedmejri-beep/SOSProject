@@ -43,8 +43,17 @@ describe("i18n dictionaries", () => {
     expect(ar.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(en.impact.stageNames).toHaveLength(fr.impact.stageNames.length);
     expect(ar.impact.stageDescriptions).toHaveLength(fr.impact.stageDescriptions.length);
+    expect(fr.pap.steps).toHaveLength(4);
     expect(ar.pap.steps).toHaveLength(fr.pap.steps.length);
     expect(en.pap.steps).toHaveLength(fr.pap.steps.length);
+    expect(fr.journey.stages).toHaveLength(10);
+    expect(ar.journey.stages).toHaveLength(fr.journey.stages.length);
+    expect(en.journey.stages).toHaveLength(fr.journey.stages.length);
+    expect(fr.journey.richSims).toHaveLength(10);
+    expect(ar.journey.richSims).toHaveLength(10);
+    expect(en.journey.richSims).toHaveLength(10);
+    expect(ar.journey.richOptions.villages).toHaveLength(fr.journey.richOptions.villages.length);
+    expect(en.journey.richOptions.reasons).toHaveLength(fr.journey.richOptions.reasons.length);
     expect(ar.pap.timeline).toHaveLength(fr.pap.timeline.length);
     expect(ar.pap.accountPoints).toHaveLength(fr.pap.accountPoints.length);
     expect(ar.pap.privacyPoints).toHaveLength(fr.pap.privacyPoints.length);

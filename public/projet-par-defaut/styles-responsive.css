@@ -1,0 +1,206 @@
+/* ============================================================
+   Responsive, RTL, reduced motion and global helpers
+   ============================================================ */
+
+/* pixel sprites */
+.pix { display: block; shape-rendering: crispEdges; image-rendering: pixelated; }
+.ico { flex: none; vertical-align: -0.15em; }
+[hidden] { display: none !important; }
+
+/* Touch-friendly minimums for the small interactive controls. */
+.lang__btn, .seg__btn, .icon-btn, .chip, .seg-btn,
+.level__open, .dot, .btn--sm, .toast__close {
+  min-width: 44px;
+  min-height: 44px;
+}
+.nav__btn { flex: 0 0 auto; min-height: 44px; }
+.check { min-height: 44px; }
+.check input, .reason input { width: 22px; height: 22px; }
+
+/* ---------- responsive layout ---------- */
+@media (max-width: 1180px) {
+  .board { gap: 38px 12px; padding: 32px 18px 46px; }
+  .level__title { font-size: 0.84rem; }
+  .level__sub { font-size: 0.69rem; }
+  .nav__stage-title { max-width: 96px; }
+}
+
+@media (max-width: 1024px) {
+  .masthead__inner { padding: 12px 16px; gap: 12px; }
+  .main { padding: 24px 16px 46px; }
+  .progress-mini { display: none; }
+  .board { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 32px 10px; padding: 28px 12px 42px; }
+  .level { padding: 7px 7px 8px; }
+  .level__state { font-size: 0.5rem; padding: 1px 4px; }
+  .level__scene { margin-bottom: 6px; }
+  .level__title { font-size: 0.78rem; }
+  .mini-role { width: 18px; height: 18px; padding: 1px; }
+  .level__open { width: 22px; height: 22px; }
+}
+
+/* Tablets: recompose the winding route into a readable two-column path.
+   DOM order 1→10 keeps the connectors and the animated route in sequence. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px 18px;
+    padding: 30px 24px 42px;
+  }
+  .board .level { grid-column: auto !important; grid-row: auto !important; }
+  .board .level .level__scene .scene { aspect-ratio: 16 / 9; }
+  .level__title { font-size: 0.92rem; }
+  .level__sub { display: -webkit-box; font-size: 0.74rem; }
+  .map-head h1 { font-size: 2.4rem; }
+}
+
+/* Phones: a single readable column keeps every stage visible and reachable. */
+@media (max-width: 767px) {
+  .board {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 34px;
+    padding: 30px 38px 40px;
+  }
+  .board .level { grid-column: 1 !important; grid-row: auto !important; }
+  .level__sub { display: block; }
+  .level__title { font-size: 0.95rem; }
+  .level__scene { max-width: 100%; }
+  .level__scene .scene { aspect-ratio: 28 / 17; }
+  .level { flex-direction: row; align-items: stretch; gap: 12px; padding: 10px; }
+  .level__top { position: absolute; top: 8px; inset-inline-end: 8px; margin: 0; z-index: 2; gap: 4px; }
+  .level__top .level__num { background: rgba(255, 255, 255, 0.9); padding: 1px 4px; border-radius: 4px; }
+  .level__scene { width: 34%; flex: none; margin: 0; align-self: center; }
+  .level__body { justify-content: center; gap: 4px; }
+  .level__foot { margin-top: 4px; }
+  .level__open { margin-inline-start: auto; }
+  .board__avatar { width: 38px; height: 46px; }
+  .board__edge { font-size: 0.56rem; }
+  .map-head h1 { font-size: 2rem; }
+}
+
+@media (max-width: 620px) {
+  .masthead__inner { justify-content: center; }
+  .masthead__tools { width: 100%; justify-content: center; gap: 8px; }
+  .brand { width: 100%; justify-content: center; }
+  .brand__title { font-size: 0.62rem; }
+  .nav__inner { padding: 7px 10px; gap: 4px; }
+  .nav__btn { padding: 7px 8px; font-size: 0.74rem; }
+  .nav__stage-title { display: none; }
+  .board { padding: 26px 30px 36px; gap: 30px; }
+  .level { flex-direction: column; }
+  .level__scene { width: 100%; }
+  .level__top { position: static; }
+  .map-head { flex-direction: column; align-items: stretch; }
+  .map-actions .btn { flex: 1; }
+  .map-foot { flex-direction: column; align-items: flex-start; }
+  .footer__inner { padding: 20px 16px 28px; }
+  .screen-head h1 { font-size: 1.8rem; }
+  .dialog-head, .dialog-body, .dialog-actions { padding-inline: 16px; }
+  .pap-dialog { max-width: calc(100vw - 16px); }
+  .toast-root { inset-inline: 12px; bottom: 12px; max-width: none; }
+  .kv dd { font-size: 0.9rem; }
+  .bar { height: 10px; }
+  /* Wide data rows become readable labelled cards on phones. */
+  .table-wrap { overflow-x: visible; border: 0; background: transparent; }
+  .data-table, .data-table tbody, .data-table tr, .data-table td { display: block; width: 100%; min-width: 0; }
+  .data-table thead { display: none; }
+  .data-table tr {
+    margin-bottom: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--white);
+    box-shadow: var(--shadow-soft);
+  }
+  .data-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--pale);
+    text-align: end;
+  }
+  .data-table td::before {
+    content: attr(data-label);
+    flex: none;
+    font-size: 0.72rem;
+    font-weight: 900;
+    color: var(--ink-faint);
+    text-align: start;
+  }
+  .data-table .table-hide { display: flex; }
+  .data-table .table-action { padding-bottom: 0; border-bottom: 0; }
+  .data-table .table-name { text-align: end; }
+}
+
+@media (max-width: 380px) {
+  .board { padding: 22px 18px 32px; }
+}
+
+/* ---------- RTL ---------- */
+[dir="rtl"] body { font-family: "Segoe UI", "Tahoma", "Noto Naskh Arabic", system-ui, sans-serif; }
+[dir="rtl"] .eyebrow,
+[dir="rtl"] .stage-count,
+[dir="rtl"] .hint { letter-spacing: 0; }
+[dir="rtl"] .brand__title { font-family: var(--font-pixel); }
+[dir="rtl"] .btn .ico,
+[dir="rtl"] .map-head .ico,
+[dir="rtl"] .panel__title .ico { transform: none; }
+[dir="rtl"] .btn--primary .ico:last-child,
+[dir="rtl"] [data-next] .ico:last-child,
+[dir="rtl"] .level__open .ico,
+[dir="rtl"] .mod-tile__arrow .ico,
+[dir="rtl"] .home-level .ico { transform: scaleX(-1); }
+[dir="rtl"] .stage-head__hint .ico { transform: scaleX(-1); }
+[dir="rtl"] .legend__item .ico,
+[dir="rtl"] .tick-list .ico,
+[dir="rtl"] .note .ico { transform: none; }
+[dir="rtl"] .chat-bubble--out { align-self: flex-start; }
+[dir="rtl"] .chat-bubble--in { align-self: flex-end; }
+[dir="rtl"] .timeline__item:not(:last-child)::before { left: auto; right: 11px; }
+[dir="rtl"] .kv dd { text-align: start; }
+[dir="rtl"] .form-submit__hint { text-align: start; }
+[dir="rtl"] .flow-label--out .ico,
+[dir="rtl"] .flow-label--in .ico { transform: scaleX(-1); }
+[dir="rtl"] .data-table th,
+[dir="rtl"] .data-table td { text-align: start; }
+[dir="rtl"] .level { text-align: start; }
+[dir="rtl"] .scene__tag { inset-inline-end: 5px; }
+[dir="rtl"] .swatch__hex { direction: ltr; }
+[dir="rtl"] .cp-office__label,
+[dir="rtl"] .hero__text { text-align: start; }
+[dir="rtl"] .hero__avatar { inset-inline-end: -8px; }
+
+/* ---------- motion preferences ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .board__avatar .pix,
+  .anim-pen, .anim-check, .anim-token, .anim-coin-drop,
+  .anim-bell, .anim-gear, .anim-flag,
+  .cal-cell.is-25, .live-dot, .stop-visual > span { animation: none !important; }
+  .screen { animation: none !important; }
+  .toast { animation: none !important; }
+  .pop-up.is-pop { animation: none !important; }
+  .chat-bubble { animation: none !important; }
+}
+
+/* ---------- forced colours / high contrast ---------- */
+@media (forced-colors: active) {
+  .btn, .panel, .level, .phone, .dialog-card { border: 1px solid CanvasText; }
+  .bar > span { background: Highlight; }
+  .route-path { stroke: CanvasText; }
+}
+
+/* ---------- print ---------- */
+@media print {
+  .masthead, .nav, .footer, .toast-root, .stage-actions, .map-actions { display: none !important; }
+  body { background: #fff; }
+  .panel, .level { box-shadow: none; }
+}

@@ -56,8 +56,10 @@ Arabic switches the document to RTL.
   page. The historical 10 DT minimum is historical, never mandatory.
 - Never claim an integration works unless it was tested. Without
   `GROQ_API_KEY` the product is explicitly in curated mode. The shared client in
-  `src/lib/server/deepseek.ts` calls Groq for both API routes; each keeps strict
+  `src/lib/server/groq.ts` calls Groq for both API routes; each keeps strict
   output validation and a curated fallback.
+- The assistant is grounded in `sos-tunisie-pap-reference.md`, an independent
+  explanatory guide. The live SOS website and authorised staff override it.
 
 ## Verified facts used
 

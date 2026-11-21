@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { QuizResponse } from "@/lib/api/types";
 import { buildQuiz } from "@/lib/pap/quiz";
 import { QUIZ_REFERENCE_FACTS } from "@/lib/pap/quizReference";
-import { chatCompletion } from "@/lib/server/deepseek";
+import { chatCompletion } from "@/lib/server/groq";
 import {
   QUIZ_SYSTEM_PROMPT,
   buildQuizFacts,

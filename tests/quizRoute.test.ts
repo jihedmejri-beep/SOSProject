@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const mocks = vi.hoisted(() => ({ chatCompletion: vi.fn() }));
-vi.mock("@/lib/server/deepseek", () => ({ chatCompletion: mocks.chatCompletion }));
+vi.mock("@/lib/server/groq", () => ({ chatCompletion: mocks.chatCompletion }));
 
 import { POST } from "@/app/api/quiz/route";
 
